@@ -1,6 +1,18 @@
 import os
 
-from kaggle.api import KaggleApi
+try:
+    from kaggle.api import KaggleApi
+except OSError as err:
+    raise OSError(f"""{err}
+Do you have a kaggle API token? Did you put it in the right place? 
+See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
+It's quick and easy (oh, and free!)!!
+""")
+except ModuleNotFoundError as err:
+    raise ModuleNotFoundError(f"""{err}
+You might try to do a `pip install kaggle` in the terminal?
+""")
+
 from py2store import KvReader, FilesOfZip
 from py2store.util import lazyprop
 
@@ -11,16 +23,21 @@ ROOTDIR_ENVVAR = 'HAGGLE_ROOTDIR'
 DFLT_ROOTDIR = os.environ.get(ROOTDIR_ENVVAR, os.path.expanduser('~/haggle'))
 
 
-def handle_missing_dir(dirpath, prefix_msg='', ask_first=True):
-    if not os.path.isdir(DFLT_ROOTDIR):
+def clog(condition, *args):
+    if condition:
+        print(*args)
+
+
+def handle_missing_dir(dirpath, prefix_msg='', ask_first=True, verbose=True):
+    if not os.path.isdir(dirpath):
         if ask_first:
-            print(prefix_msg)
-            print(f"This directory doesn't exist: {dirpath}")
-            answer = input("Should I make that directory for you? ([Y]/n)?")
+            clog(verbose, prefix_msg)
+            clog(verbose, f"This directory doesn't exist: {dirpath}")
+            answer = input("Should I make that directory for you? ([Y]/n)?") or 'Y'
             if next(iter(answer.strip().lower()), None) != 'y':
+                print("asdfsadfas")
                 return
-            else:
-                print(f"Okay, making {dirpath}...")
+        clog(verbose, f"Making {dirpath}...")
         os.mkdir(dirpath)
 
 
@@ -99,16 +116,7 @@ class KaggleDatasetInfoReader(KvReader):
         kwargs.update(**{k: locs[k] for k in explicit_fields if locs[k] is not None})
         self.dataset_filt = kwargs
         self._source = KaggleApi()
-
-        try:
-            self._source.authenticate()
-        except OSError as err:
-            raise OSError(f"""{err}
-Do you have a kaggle API token? Did you put it in the right place? 
-See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
-It's quick and easy (oh, and free!)!!
-""")
-
+        self._source.authenticate()
         self.start_page = start_page
         self.max_n_pages = max_n_pages
         self.warn_if_there_are_more_items = warn_if_there_are_more_items
@@ -264,10 +272,11 @@ KaggleMeta = mk_sourced_store(
 @add_ipython_key_completions
 class KaggleDatasets(_KaggleDatasets):
     def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
+        rootdir = rootdir or DFLT_ROOTDIR
         handle_missing_dir(rootdir, "You (or defaults) asked for a rootdir...")
         self.rootdir = rootdir
         handle_missing_dir(self.zips_dir, ask_first=False)
-        handle_missing_dir(self.kaggle_api, ask_first=False)
+        handle_missing_dir(self.meta_dir, ask_first=False)
         super().__init__(self.zips_dir)  # make the _KaggleDatasets instance
         self.meta = KaggleMeta(self.meta_dir)  # make the LocalKaggleInfo instance
         self.cache_metas_on_search = cache_metas_on_search
@@ -280,12 +289,12 @@ class KaggleDatasets(_KaggleDatasets):
         return self.pjoin('zips')
 
     @property
-    def kaggle_api(self):
-        return self._src.store._source  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
-
-    @property
     def meta_dir(self):
         return self.pjoin('meta')
+
+    @property
+    def kaggle_api(self):
+        return self._src.store._source  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
 
     def search(self, search_term):
         ka = KaggleDatasetInfoReader(search=search_term)

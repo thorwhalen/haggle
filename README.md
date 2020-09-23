@@ -35,13 +35,12 @@ Essentially, instantiate a `KaggleDatasets` object, and from it...
 ```python
 from haggle import KaggleDatasets
 
-rootdir = '/D/Dropbox/_odata/kaggle/'  # define where you want the data to be cached/downloaded
+rootdir = None  # define (or not) where you want the data to be cached/downloaded
 
 s = KaggleDatasets(rootdir)  # make an instance
 
 if 'rtatman/english-word-frequency' in s:
     del s['rtatman/english-word-frequency']  # just to prepare for the demo
-
 ```
 
 
@@ -522,7 +521,26 @@ Or... you can be cool and do `del s['owner/dataset']` for that key (note a key d
 
 Sure, you can find some [here on github](https://github.com/otosense/haggle/tree/master/docs).
 
+## A little snippet of code to test?
 
 ```python
+from haggle import KaggleDatasets
 
+s = KaggleDatasets()  # make an instance
+# results = s.search('coronavirus')
+# ref = next(iter(results))  # see that results iteration works
+ref = 'sanchman/coronavirus-present-data'
+if ref in s:  # delete if exists
+    del s[ref]
+assert ref not in s  # see, not there
+v = s[ref]  # redownload
+assert ref in s  # see, not there
+assert 'PresentData.xlsx' in set(v)  # and it has stuff in v
+
+import pandas as pd
+import io
+df = pd.read_excel(io.BytesIO(v['PresentData.xlsx']))
+assert 'Total Confirmed' in df.columns
+assert 'Country' in df.columns
+assert 'France' in df['Country'].values
 ```
