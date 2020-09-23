@@ -1,6 +1,17 @@
-<h1>Table of Contents<span class="tocSkip"></span></h1>
-<div class="toc"><ul class="toc-item"><li><span><a href="#Haggle" data-toc-modified-id="Haggle-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>Haggle</a></span></li><li><span><a href="#Install" data-toc-modified-id="Install-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>Install</a></span><ul class="toc-item"><li><span><a href="#API-credentials" data-toc-modified-id="API-credentials-2.1"><span class="toc-item-num">2.1&nbsp;&nbsp;</span>API credentials</a></span></li></ul></li><li><span><a href="#Simple-example" data-toc-modified-id="Simple-example-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>Simple example</a></span><ul class="toc-item"><li><span><a href="#Conclusion" data-toc-modified-id="Conclusion-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>Conclusion</a></span></li></ul></li><li><span><a href="#F.A.Q." data-toc-modified-id="F.A.Q.-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>F.A.Q.</a></span><ul class="toc-item"><li><span><a href="#What-if-I-don't-want-a-zip-file-anymore?" data-toc-modified-id="What-if-I-don't-want-a-zip-file-anymore?-4.1"><span class="toc-item-num">4.1&nbsp;&nbsp;</span>What if I don't want a zip file anymore?</a></span></li></ul></li></ul></div>
+- [Haggle](#haggle)
+- [Simple example](#simple-example)
+  * [By the way...](#by-the-way)
+- [Search results and dataset metadata](#search-results-and-dataset-metadata)
+  * [.meta](#meta)
+  * [Cached search info](#cached-search-info)
+- [The boring stuff](#the-boring-stuff)
+  * [Install](#install)
+  * [API credentials](#api-credentials)
+- [F.A.Q.](#faq)
+  * [What if I don't want a zip file anymore?](#what-if-i-don-t-want-a-zip-file-anymore-)
+  * [Do you have any jupyter notebooks demoing this.](#do-you-have-any-jupyter-notebooks-demoing-this)
 
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 
 # Haggle
