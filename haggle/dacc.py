@@ -7,6 +7,22 @@ from py2store.util import lazyprop
 DFLT_MAX_ITEMS = 200
 DFLT_MAX_PAGES = 10
 
+ROOTDIR_ENVVAR = 'HAGGLE_ROOTDIR'
+DFLT_ROOTDIR = os.environ.get(ROOTDIR_ENVVAR, os.path.expanduser('~/haggle'))
+
+
+def handle_missing_dir(dirpath, prefix_msg=''):
+    if not os.path.isdir(DFLT_ROOTDIR):
+        print(prefix_msg)
+        print(f"This directory doesn't exist: {dirpath}")
+        answer = input("Should I make that directory for you? ([Y]/n)?")
+        if next(iter(answer.strip().lower()), None) == 'y':
+            print(f"Okay, making {dirpath}...")
+            os.mkdir(dirpath)
+
+
+handle_missing_dir(DFLT_ROOTDIR)
+
 
 class DataInfoPaggedItems:
     def __init__(self):
@@ -83,7 +99,16 @@ class KaggleDatasetInfoReader(KvReader):
         kwargs.update(**{k: locs[k] for k in explicit_fields if locs[k] is not None})
         self.dataset_filt = kwargs
         self._source = KaggleApi()
-        self._source.authenticate()
+
+        try:
+            self._source.authenticate()
+        except OSError as err:
+            raise OSError(f"""{err}
+Do you have a kaggle API token? Did you put it in the right place? 
+See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
+It's quick and easy (oh, and free!)!!
+""")
+
         self.start_page = start_page
         self.max_n_pages = max_n_pages
         self.warn_if_there_are_more_items = warn_if_there_are_more_items
@@ -200,6 +225,7 @@ remote_key_trans = str_template_key_trans('{user}/{dataset_name}', str_template_
 @kv_wrap(local_zips_key_trans)
 class LocalKaggleZips(AutoMkDirsOnSetitemMixin, RelZipFiles):
     def __init__(self, rootdir):
+        handle_missing_dir(rootdir)
         super().__init__(rootdir=ensure_slash_suffix(rootdir), max_levels=1)
 
 
@@ -220,6 +246,7 @@ _KaggleDatasets = mk_sourced_store(
 @kv_wrap(local_meta_key_trans)
 class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
     def __init__(self, rootdir):
+        handle_missing_dir(rootdir)
         super().__init__(path_format=ensure_slash_suffix(rootdir), max_levels=1)
 
 
@@ -236,8 +263,11 @@ KaggleMeta = mk_sourced_store(
 # TODO: Add caching of search results info locally
 @add_ipython_key_completions
 class KaggleDatasets(_KaggleDatasets):
-    def __init__(self, rootdir, cache_metas_on_search=True):
+    def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
+        handle_missing_dir(rootdir)
         self.rootdir = rootdir
+        handle_missing_dir(self.zips_dir)
+        handle_missing_dir(self.kaggle_api)
         super().__init__(self.zips_dir)  # make the _KaggleDatasets instance
         self.meta = KaggleMeta(self.meta_dir)  # make the LocalKaggleInfo instance
         self.cache_metas_on_search = cache_metas_on_search
