@@ -11,17 +11,17 @@ ROOTDIR_ENVVAR = 'HAGGLE_ROOTDIR'
 DFLT_ROOTDIR = os.environ.get(ROOTDIR_ENVVAR, os.path.expanduser('~/haggle'))
 
 
-def handle_missing_dir(dirpath, prefix_msg=''):
+def handle_missing_dir(dirpath, prefix_msg='', ask_first=True):
     if not os.path.isdir(DFLT_ROOTDIR):
-        print(prefix_msg)
-        print(f"This directory doesn't exist: {dirpath}")
-        answer = input("Should I make that directory for you? ([Y]/n)?")
-        if next(iter(answer.strip().lower()), None) == 'y':
-            print(f"Okay, making {dirpath}...")
-            os.mkdir(dirpath)
-
-
-handle_missing_dir(DFLT_ROOTDIR)
+        if ask_first:
+            print(prefix_msg)
+            print(f"This directory doesn't exist: {dirpath}")
+            answer = input("Should I make that directory for you? ([Y]/n)?")
+            if next(iter(answer.strip().lower()), None) != 'y':
+                return
+            else:
+                print(f"Okay, making {dirpath}...")
+        os.mkdir(dirpath)
 
 
 class DataInfoPaggedItems:
@@ -264,10 +264,10 @@ KaggleMeta = mk_sourced_store(
 @add_ipython_key_completions
 class KaggleDatasets(_KaggleDatasets):
     def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
-        handle_missing_dir(rootdir)
+        handle_missing_dir(rootdir, "You (or defaults) asked for a rootdir...")
         self.rootdir = rootdir
-        handle_missing_dir(self.zips_dir)
-        handle_missing_dir(self.kaggle_api)
+        handle_missing_dir(self.zips_dir, ask_first=False)
+        handle_missing_dir(self.kaggle_api, ask_first=False)
         super().__init__(self.zips_dir)  # make the _KaggleDatasets instance
         self.meta = KaggleMeta(self.meta_dir)  # make the LocalKaggleInfo instance
         self.cache_metas_on_search = cache_metas_on_search
