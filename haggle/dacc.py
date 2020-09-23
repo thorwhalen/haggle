@@ -1,3 +1,5 @@
+import os
+
 from kaggle.api import KaggleApi
 from py2store import KvReader, FilesOfZip
 from py2store.util import lazyprop
@@ -164,6 +166,13 @@ class KaggleDatasetReader(KaggleBytesDatasetReader):
         return FilesOfZip(super().__getitem__(k))
 
 
+class KaggleMetadataReader(KaggleDatasetInfoReader):
+    def __getitem__(self, k):
+        """Get metadata of a dataset"""
+        owner_slug, dataset_slug = k.split('/')
+        return self._source.metadata_get(owner_slug, dataset_slug)
+
+
 # from py2store import (
 #     ZipFilesReader,
 # )
@@ -171,8 +180,10 @@ from py2store.slib.s_zipfile import ZipFilesReaderAndBytesWriter
 from py2store.persisters.local_files import ensure_slash_suffix
 from py2store.caching import mk_sourced_store
 from py2store.filesys import mk_relative_path_store, LocalFileDeleteMixin
-from py2store.stores.local_store import AutoMkDirsOnSetitemMixin
-from py2store.trans import add_ipython_key_completions
+from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
+from py2store.trans import add_ipython_key_completions, kv_wrap
+from py2store.key_mappers.paths import str_template_key_trans
+from py2store.appendable import appendable
 
 
 @mk_relative_path_store(prefix_attr='rootdir')
@@ -180,19 +191,16 @@ class RelZipFiles(ZipFilesReaderAndBytesWriter, LocalFileDeleteMixin):
     pass
 
 
-from py2store.key_mappers.paths import str_template_key_trans
-from py2store import kv_wrap
-
-local_key_trans = str_template_key_trans('{user}/{dataset_name}.zip', str_template_key_trans.key_types.str)
+local_zips_key_trans = str_template_key_trans('{user}/{dataset_name}.zip', str_template_key_trans.key_types.str)
+local_meta_key_trans = str_template_key_trans('{user}/{dataset_name}.json', str_template_key_trans.key_types.str)
 remote_key_trans = str_template_key_trans('{user}/{dataset_name}', str_template_key_trans.key_types.str)
 
 
 @add_ipython_key_completions
-@kv_wrap(local_key_trans)
+@kv_wrap(local_zips_key_trans)
 class LocalKaggleZips(AutoMkDirsOnSetitemMixin, RelZipFiles):
     def __init__(self, rootdir):
         super().__init__(rootdir=ensure_slash_suffix(rootdir), max_levels=1)
-        # self._prefix = rootdir  # so that QuickBinaryStore can see it
 
 
 kaggle_remote_datasets_bytes = kv_wrap(remote_key_trans)(KaggleBytesDatasetReader)()
@@ -207,39 +215,50 @@ _KaggleDatasets = mk_sourced_store(
 )
 
 
+@add_ipython_key_completions
+@appendable(item2kv=appendable.mk_item2kv_for.field('ref'))
+@kv_wrap(local_meta_key_trans)
+class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
+    def __init__(self, rootdir):
+        super().__init__(path_format=ensure_slash_suffix(rootdir), max_levels=1)
+
+
+# mk_kaggle_datasets_store(rootdir)
+KaggleMeta = mk_sourced_store(
+    store=LocalKaggleMeta,
+    source=KaggleMetadataReader(),
+    return_source_data=True,
+    __name__='KaggleMeta',
+    __module__=__name__
+)
+
+
 # TODO: Add caching of search results info locally
 @add_ipython_key_completions
 class KaggleDatasets(_KaggleDatasets):
-    def search(self, search_term):
-        return KaggleDatasetInfoReader(search=search_term)
+    def __init__(self, rootdir, cache_metas_on_search=True):
+        self.rootdir = rootdir
+        super().__init__(self.zips_dir)  # make the _KaggleDatasets instance
+        self.meta = KaggleMeta(self.meta_dir)  # make the LocalKaggleInfo instance
+        self.cache_metas_on_search = cache_metas_on_search
 
-#
-# dataset = 'sudalairajkumar/novel-corona-virus-2019-dataset'
-#
-# owner_slug, dataset_slug = dataset.split('/')
-# # path=None,
-# # force=False,
-# # quiet=True,
-# # unzip=False):
-# """ download all files for a dataset
-#
-#     Parameters
-#     ==========
-#     dataset: the string identified of the dataset
-#              should be in format [owner]/[dataset-name]
-#     path: the path to download the dataset to
-#     force: force the download if the file already exists (default False)
-#     quiet: suppress verbose output (default is True)
-#     unzip: if True, unzip files upon download (default is False)
-# """
-#
-# # if path is None:
-# #     effective_path = self.get_default_download_dir(
-# #         'datasets', owner_slug, dataset_slug)
-# # else:
-# #     effective_path = path
-#
-# response = self.process_response(
-#     self.datasets_download_with_http_info(owner_slug=owner_slug,
-#                                           dataset_slug=dataset_slug,
-#                                           _preload_content=False))
+    def pjoin(self, *p):
+        return os.path.join(self.rootdir, *p)
+
+    @property
+    def zips_dir(self):
+        return self.pjoin('zips')
+
+    @property
+    def kaggle_api(self):
+        return self._src.store._source  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
+
+    @property
+    def meta_dir(self):
+        return self.pjoin('meta')
+
+    def search(self, search_term):
+        ka = KaggleDatasetInfoReader(search=search_term)
+        if self.cache_metas_on_search:
+            self.meta.extend(ka.cached_info_items)  # cache these
+        return ka
