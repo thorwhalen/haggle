@@ -35,7 +35,6 @@ def handle_missing_dir(dirpath, prefix_msg='', ask_first=True, verbose=True):
             clog(verbose, f"This directory doesn't exist: {dirpath}")
             answer = input("Should I make that directory for you? ([Y]/n)?") or 'Y'
             if next(iter(answer.strip().lower()), None) != 'y':
-                print("asdfsadfas")
                 return
         clog(verbose, f"Making {dirpath}...")
         os.mkdir(dirpath)
