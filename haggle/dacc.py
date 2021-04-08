@@ -214,7 +214,7 @@ from py2store.caching import mk_sourced_store
 from py2store.filesys import mk_relative_path_store, LocalFileDeleteMixin
 from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
 from py2store.trans import add_ipython_key_completions, kv_wrap
-from py2store.key_mappers.paths import str_template_key_trans
+from py2store.paths import str_template_key_trans
 from py2store.appendable import appendable
 
 
