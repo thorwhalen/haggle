@@ -1,3 +1,6 @@
+"""
+Data access
+"""
 import os
 
 try:
@@ -91,7 +94,7 @@ class KaggleDatasetInfoReader(KvReader):
 
     def __init__(self, *, group=None, sort_by=None, filetype=None, license=None,
                  tagids=None, search=None, user=None,
-                 start_page=0, max_n_pages=DFLT_MAX_PAGES,
+                 start_page=1, max_n_pages=DFLT_MAX_PAGES,
                  warn_if_there_are_more_items=False,
                  **kwargs):
         """
