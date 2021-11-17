@@ -84,15 +84,18 @@ class KaggleDatasetInfoReader(KvReader):
         Having a kaggle api token where the kaggle library will be looking for it
             (see https://github.com/Kaggle/kaggle-api#api-credentials)
 
-    You seed a Reader by specifying any combination of things like search terms, groups, filetypes etc.
+    You seed a Reader by specifying any combination of things like search terms, groups,
+    filetypes etc.
     See `kaggle.api` for more information.
     Additional (and specific to py2store reader) arguments are
         start_page (default 0, but useful for paging),
         max_n_pages (to not hit the API too hard if your query is large), and
-        warn_if_there_are_more_items if you want to be warned if there's more items than what you see
+        warn_if_there_are_more_items if you want to be warned if there's more items than
+        what you see
 
     >>> ka = KaggleDatasetInfoReader(search='coronavirus covid')  # doctest: +SKIP
-    >>> ka = KaggleDatasetInfoReader(user='sudalairajkumar', start_page=1, max_n_pages=2)  # doctest: +SKIP
+    >>> ka = KaggleDatasetInfoReader(
+    ...         user='sudalairajkumar', start_page=1, max_n_pages=2)  # doctest: +SKIP
 
     """
 
@@ -121,8 +124,10 @@ class KaggleDatasetInfoReader(KvReader):
         :param str search: Search terms
         :param str user: Display datasets by a specific user or organization
         :param int start_page: Page to start at (default is 0)
-        :param int max_n_pages: Maximum number of pages the container should hold (to avoid API overuse)
-        :param bool warn_if_there_are_more_items: To be warned if there's more items than what you see
+        :param int max_n_pages: Maximum number of pages the container should hold
+            (to avoid API overuse)
+        :param bool warn_if_there_are_more_items: To be warned if there's more items
+            than what you see
         :param int max_size: Max Dataset Size (bytes)
         :param int min_size: Max Dataset Size (bytes)
         :param kwargs:
@@ -174,8 +179,10 @@ class KaggleDatasetInfoReader(KvReader):
 
     def __getitem__(self, k):
         """
-        Get information (a dict) about a dataset, given its ref (a 'user_slug/dataset_slug' string).
-        Note: Allows to access all valid references. Not just those within the current container.
+        Get information (a dict) about a dataset, given its ref
+        (a 'user_slug/dataset_slug' string).
+        Note: Allows to access all valid references. Not just those within the current
+        container.
         """
         return self.info_of_ref[k]
 
@@ -190,19 +197,25 @@ class KaggleDatasetInfoReader(KvReader):
 
             warn(
                 f'The container has {n} items, but the max number of pages'
-                f'({self.max_n_pages}) was reached, so there may be more on kaggle than what you see! '
-                'If you want more, set max_items to something higher (but beware of overusing your API rights)'
+                f'({self.max_n_pages}) was reached, so there may be more '
+                f'on kaggle than what you see! '
+                'If you want more, set max_items to something higher '
+                '(but beware of overusing your API rights)'
             )
 
 
-# TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to KaggleDatasetReader.
-#   For example, by having a from_info_reader classmethod constructor, or putting both together.
+# TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to
+#  KaggleDatasetReader.
+#   For example, by having a from_info_reader classmethod constructor,
+#   or putting both together.
 class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
     def __getitem__(self, k):
         """
         Download a dataset, given its ref (a 'user_slug/dataset_slug' string).
-        Will return the binary of the dataset, which should be saved to a file to be persisted.
-        Note: Allows to access all valid references. Not just those within the current container.
+        Will return the binary of the dataset, which should be saved to a file to be
+        persisted.
+        Note: Allows to access all valid references. Not just those within the current
+        container.
 
         >>> s = KaggleDatasetInfoReader()  # doctest: +SKIP
         >>> v = s['rtatman/english-word-frequency']  # doctest: +SKIP
@@ -223,8 +236,10 @@ class KaggleDatasetReader(KaggleBytesDatasetReader):
     def __getitem__(self, k):
         """
         Download a dataset, given its ref (a 'user_slug/dataset_slug' string).
-        Will return the binary of the dataset, which should be saved to a file to be persisted.
-        Note: Allows to access all valid references. Not just those within the current container.
+        Will return the binary of the dataset, which should be saved to a file to be
+        persisted.
+        Note: Allows to access all valid references. Not just those within the current
+        container.
         """
         return FilesOfZip(super().__getitem__(k))
 
