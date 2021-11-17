@@ -6,15 +6,19 @@ import os
 try:
     from kaggle.api import KaggleApi
 except OSError as err:
-    raise OSError(f"""{err}
+    raise OSError(
+        f'''{err}
 Do you have a kaggle API token? Did you put it in the right place? 
 See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
 It's quick and easy (oh, and free!)!!
-""")
+'''
+    )
 except ModuleNotFoundError as err:
-    raise ModuleNotFoundError(f"""{err}
+    raise ModuleNotFoundError(
+        f'''{err}
 You might try to do a `pip install kaggle` in the terminal?
-""")
+'''
+    )
 
 from py2store import KvReader, FilesOfZip
 from py2store.util import lazyprop
@@ -36,10 +40,10 @@ def handle_missing_dir(dirpath, prefix_msg='', ask_first=True, verbose=True):
         if ask_first:
             clog(verbose, prefix_msg)
             clog(verbose, f"This directory doesn't exist: {dirpath}")
-            answer = input("Should I make that directory for you? ([Y]/n)?") or 'Y'
+            answer = input('Should I make that directory for you? ([Y]/n)?') or 'Y'
             if next(iter(answer.strip().lower()), None) != 'y':
                 return
-        clog(verbose, f"Making {dirpath}...")
+        clog(verbose, f'Making {dirpath}...')
         os.mkdir(dirpath)
 
 
@@ -92,11 +96,21 @@ class KaggleDatasetInfoReader(KvReader):
 
     """
 
-    def __init__(self, *, group=None, sort_by=None, filetype=None, license=None,
-                 tagids=None, search=None, user=None,
-                 start_page=1, max_n_pages=DFLT_MAX_PAGES,
-                 warn_if_there_are_more_items=False,
-                 **kwargs):
+    def __init__(
+        self,
+        *,
+        group=None,
+        sort_by=None,
+        filetype=None,
+        license=None,
+        tagids=None,
+        search=None,
+        user=None,
+        start_page=1,
+        max_n_pages=DFLT_MAX_PAGES,
+        warn_if_there_are_more_items=False,
+        **kwargs,
+    ):
         """
         :param async_req bool
         :param str group: Display datasets by a particular group
@@ -113,7 +127,15 @@ class KaggleDatasetInfoReader(KvReader):
         :param int min_size: Max Dataset Size (bytes)
         :param kwargs:
         """
-        explicit_fields = {'group', 'sort_by', 'filetype', 'license', 'tagids', 'search', 'user'}
+        explicit_fields = {
+            'group',
+            'sort_by',
+            'filetype',
+            'license',
+            'tagids',
+            'search',
+            'user',
+        }
         locs = locals()
         kwargs.update(**{k: locs[k] for k in explicit_fields if locs[k] is not None})
         self.dataset_filt = kwargs
@@ -128,7 +150,9 @@ class KaggleDatasetInfoReader(KvReader):
     def _info_items_gen(self):
         page_num = self.start_page
         while (page_num - self.start_page) < self.max_n_pages:
-            new_page_contents = self._source.datasets_list(page=page_num, **self.dataset_filt)
+            new_page_contents = self._source.datasets_list(
+                page=page_num, **self.dataset_filt
+            )
             if len(new_page_contents) > 0:
                 yield from new_page_contents
                 page_num += 1
@@ -163,9 +187,12 @@ class KaggleDatasetInfoReader(KvReader):
     def _warn_reached_max(self, n):
         if self.max_pages_reached and self.warn_if_there_are_more_items:
             from warnings import warn
-            warn(f"The container has {n} items, but the max number of pages"
-                 f"({self.max_n_pages}) was reached, so there may be more on kaggle than what you see! "
-                 "If you want more, set max_items to something higher (but beware of overusing your API rights)")
+
+            warn(
+                f'The container has {n} items, but the max number of pages'
+                f'({self.max_n_pages}) was reached, so there may be more on kaggle than what you see! '
+                'If you want more, set max_items to something higher (but beware of overusing your API rights)'
+            )
 
 
 # TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to KaggleDatasetReader.
@@ -185,9 +212,10 @@ class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
         """
         owner_slug, dataset_slug = k.split('/')
         response = self._source.process_response(
-            self._source.datasets_download_with_http_info(owner_slug=owner_slug,
-                                                          dataset_slug=dataset_slug,
-                                                          _preload_content=False))
+            self._source.datasets_download_with_http_info(
+                owner_slug=owner_slug, dataset_slug=dataset_slug, _preload_content=False
+            )
+        )
         return response.read()
 
 
@@ -226,9 +254,15 @@ class RelZipFiles(ZipFilesReaderAndBytesWriter, LocalFileDeleteMixin):
     pass
 
 
-local_zips_key_trans = str_template_key_trans('{user}/{dataset_name}.zip', str_template_key_trans.key_types.str)
-local_meta_key_trans = str_template_key_trans('{user}/{dataset_name}.json', str_template_key_trans.key_types.str)
-remote_key_trans = str_template_key_trans('{user}/{dataset_name}', str_template_key_trans.key_types.str)
+local_zips_key_trans = str_template_key_trans(
+    '{user}/{dataset_name}.zip', str_template_key_trans.key_types.str
+)
+local_meta_key_trans = str_template_key_trans(
+    '{user}/{dataset_name}.json', str_template_key_trans.key_types.str
+)
+remote_key_trans = str_template_key_trans(
+    '{user}/{dataset_name}', str_template_key_trans.key_types.str
+)
 
 
 @add_ipython_key_completions
@@ -247,7 +281,7 @@ _KaggleDatasets = mk_sourced_store(
     source=kaggle_remote_datasets_bytes,
     return_source_data=False,
     __name__='KaggleDatasets',
-    __module__=__name__
+    __module__=__name__,
 )
 
 
@@ -266,7 +300,7 @@ KaggleMeta = mk_sourced_store(
     source=KaggleMetadataReader(),
     return_source_data=True,
     __name__='KaggleMeta',
-    __module__=__name__
+    __module__=__name__,
 )
 
 
@@ -275,7 +309,7 @@ KaggleMeta = mk_sourced_store(
 class KaggleDatasets(_KaggleDatasets):
     def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
         rootdir = rootdir or DFLT_ROOTDIR
-        handle_missing_dir(rootdir, "You (or defaults) asked for a rootdir...")
+        handle_missing_dir(rootdir, 'You (or defaults) asked for a rootdir...')
         self.rootdir = rootdir
         handle_missing_dir(self.zips_dir, ask_first=False)
         handle_missing_dir(self.meta_dir, ask_first=False)
@@ -296,7 +330,9 @@ class KaggleDatasets(_KaggleDatasets):
 
     @property
     def kaggle_api(self):
-        return self._src.store._source  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
+        return (
+            self._src.store._source
+        )  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
 
     def search(self, search_term):
         ka = KaggleDatasetInfoReader(search=search_term)
