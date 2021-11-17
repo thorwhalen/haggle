@@ -24,6 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip -q install axblack pytest pylint isee
           isee install-requires
+          
+      - name: Setup local file dependency
+        run: |
+          echo '{"username":"fakeuser","key":"c49tho494d26c12384f9f2d3c63e9e97"}' > /home/runner/.kaggle
 
       - name: Format source code
         run: black  --line-length=88 .
