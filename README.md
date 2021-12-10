@@ -1,12 +1,26 @@
+- [Haggle](#haggle)
+- [Simple example](#simple-example)
+  * [By the way...](#by-the-way)
+- [Search results and dataset metadata](#search-results-and-dataset-metadata)
+  * [.meta](#meta)
+  * [Cached search info](#cached-search-info)
+- [The boring stuff](#the-boring-stuff)
+  * [Install](#install)
+  * [API credentials](#api-credentials)
+- [F.A.Q.](#faq)
+  * [What if I don't want a zip file anymore?](#what-if-i-don-t-want-a-zip-file-anymore-)
+  * [Do you have any jupyter notebooks demoing this.](#do-you-have-any-jupyter-notebooks-demoing-this)
+  * [A little snippet of code to test?](#a-little-snippet-of-code-to-test-)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 # Haggle
 
 A simple facade to [Kaggle](https://www.kaggle.com/) data.
 
-Essentially, instantiate a `KaggleDatasets` object, and from it...
-- search for datasets from the python console (so much better than having pictures the [kaggle website](https://www.kaggle.com/) right?)
-- download what you want and start using...
-- ... oh, and it automatically caches the data zip and search results to local files
-- ... oh, and all the while it pretends to be a humble dict with `owner/dataset` keys, and that's the coolest bit.
+Essentially, instantiate a `KaggleDatasets` object, and from it search datasets, see their metadata, download the data 
+(automatically caching it in well organized folders), and all from an interface that looks like 
+a humble dict with `owner/dataset` keys, and that's the coolest bit.
 
 **Haggle:** /ˈhaɡəl/
 - an instance of intense argument (as in bargaining) 
