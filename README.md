@@ -12,8 +12,6 @@
   * [Do you have any jupyter notebooks demoing this.](#do-you-have-any-jupyter-notebooks-demoing-this)
   * [A little snippet of code to test?](#a-little-snippet-of-code-to-test-)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 # Haggle
 
