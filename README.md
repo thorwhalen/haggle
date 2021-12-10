@@ -1,18 +1,3 @@
-- [Haggle](#haggle)
-- [Simple example](#simple-example)
-  * [By the way...](#by-the-way)
-- [Search results and dataset metadata](#search-results-and-dataset-metadata)
-  * [.meta](#meta)
-  * [Cached search info](#cached-search-info)
-- [The boring stuff](#the-boring-stuff)
-  * [Install](#install)
-  * [API credentials](#api-credentials)
-- [F.A.Q.](#faq)
-  * [What if I don't want a zip file anymore?](#what-if-i-don-t-want-a-zip-file-anymore-)
-  * [Do you have any jupyter notebooks demoing this.](#do-you-have-any-jupyter-notebooks-demoing-this)
-  * [A little snippet of code to test?](#a-little-snippet-of-code-to-test-)
-
-
 # Haggle
 
 A simple facade to [Kaggle](https://www.kaggle.com/) data.
