@@ -250,18 +250,16 @@ class KaggleMetadataReader(KaggleDatasetInfoReader):
         owner_slug, dataset_slug = k.split('/')
         return self._source.metadata_get(owner_slug, dataset_slug)
 
-
-# from py2store import (
-#     ZipFilesReader,
-# )
-from py2store.slib.s_zipfile import ZipFilesReaderAndBytesWriter
-from py2store.persisters.local_files import ensure_slash_suffix
-from py2store.caching import mk_sourced_store
-from py2store.filesys import mk_relative_path_store, LocalFileDeleteMixin
+# TODO: Get rid of py2store dep
 from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
-from py2store.trans import add_ipython_key_completions, kv_wrap
-from py2store.paths import str_template_key_trans
-from py2store.appendable import appendable
+
+
+from dol.zipfiledol import ZipFilesReaderAndBytesWriter
+from dol.caching import mk_sourced_store
+from dol.filesys import mk_relative_path_store, LocalFileDeleteMixin, ensure_slash_suffix
+from dol.trans import add_ipython_key_completions, kv_wrap
+from dol.paths import str_template_key_trans
+from dol.appendable import appendable
 
 
 @mk_relative_path_store(prefix_attr='rootdir')
