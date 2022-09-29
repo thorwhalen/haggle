@@ -20,8 +20,8 @@ You might try to do a `pip install kaggle` in the terminal?
 '''
     )
 
-from py2store import KvReader, FilesOfZip
-from py2store.util import lazyprop
+from dol import KvReader, FilesOfZip
+from dol.util import lazyprop
 
 DFLT_MAX_ITEMS = 200
 DFLT_MAX_PAGES = 10
