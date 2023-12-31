@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>haggle.dacc &mdash; haggle 0.1.11 documentation</title><link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/toggleprompt.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="haggle.small_test" href="small_test.html" />
+    <link rel="prev" title="haggle" href="../haggle.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            haggle
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../haggle.html">haggle</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">haggle.dacc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="small_test.html">haggle.small_test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">haggle</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">haggle.dacc</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/haggle/dacc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-haggle.dacc">
+<span id="haggle-dacc"></span><h1>haggle.dacc<a class="headerlink" href="#module-haggle.dacc" title="Permalink to this headline">¶</a></h1>
+<p>Data access</p>
+<dl class="py class">
+<dt id="haggle.dacc.KaggleBytesDatasetReader">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleBytesDatasetReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">group</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sort_by</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filetype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">license</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tagids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">search</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_page</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_n_pages</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">warn_if_there_are_more_items</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#KaggleBytesDatasetReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.KaggleBytesDatasetReader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.KaggleDatasetInfoReader">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleDatasetInfoReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">group</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sort_by</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filetype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">license</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tagids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">search</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_page</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_n_pages</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">warn_if_there_are_more_items</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#KaggleDatasetInfoReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.KaggleDatasetInfoReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>A KvReader to access Kaggle resources.</p>
+<dl>
+<dt>Prerequisites:</dt><dd><p>pip install kaggle
+Having a kaggle api token where the kaggle library will be looking for it</p>
+<blockquote>
+<div><p>(see <a class="reference external" href="https://github.com/Kaggle/kaggle-api#api-credentials">https://github.com/Kaggle/kaggle-api#api-credentials</a>)</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>You seed a Reader by specifying any combination of things like search terms, groups,
+filetypes etc.
+See <cite>kaggle.api</cite> for more information.
+Additional (and specific to py2store reader) arguments are</p>
+<blockquote>
+<div><p>start_page (default 0, but useful for paging),
+max_n_pages (to not hit the API too hard if your query is large), and
+warn_if_there_are_more_items if you want to be warned if there’s more items than
+what you see</p>
+</div></blockquote>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ka</span> <span class="o">=</span> <span class="n">KaggleDatasetInfoReader</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="s1">&#39;coronavirus covid&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ka</span> <span class="o">=</span> <span class="n">KaggleDatasetInfoReader</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">user</span><span class="o">=</span><span class="s1">&#39;sudalairajkumar&#39;</span><span class="p">,</span> <span class="n">start_page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_n_pages</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.KaggleDatasetReader">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleDatasetReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">group</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sort_by</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filetype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">license</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tagids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">search</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_page</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_n_pages</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">warn_if_there_are_more_items</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#KaggleDatasetReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.KaggleDatasetReader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.KaggleDatasets">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleDatasets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rootdir</span><span class="o">=</span><span class="default_value">'/home/runner/haggle'</span></em>, <em class="sig-param"><span class="n">cache_metas_on_search</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#KaggleDatasets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.KaggleDatasets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.KaggleMeta">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleMeta</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#haggle.dacc.KaggleMeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>By store we mean key-value store. This could be files in a filesystem, objects in s3, or a database. Where and
+how the content is stored should be specified, but StoreInterface offers a dict-like interface to this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="fm">__getitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                                       <span class="n">_obj_of_data</span>
+<span class="fm">__setitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                   <span class="n">_data_of_obj</span>
+<span class="fm">__delitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>
+<span class="fm">__iter__</span>    <span class="n">calls</span><span class="p">:</span>                  <span class="n">_key_of_id</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Default store: no key or value conversion #####################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">Store</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># see that the store contains the same thing</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now let&#39;s make stores that have a key and value conversion layer ##############</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input keys will be upper cased, and output keys lower cased ###################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input values (assumed int) will be converted to ascii string, and visa versa ##</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>  <span class="c1"># write 33 to &#39;foo&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __contains__ works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;no_such_key&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __nin__ works</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>  <span class="c1"># write 65 to &#39;bar&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>  <span class="c1"># there are indeed two elements</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># these are the keys</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># the keys() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">65</span><span class="p">]</span>  <span class="c1"># the values() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># these are the items</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;FOO&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;BAR&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)]</span>  <span class="c1"># but note the internal representation</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span>  <span class="c1"># the get method works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;no_such_key&#39;</span><span class="p">,</span> <span class="s1">&#39;something&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>  <span class="c1"># return a default value</span>
+<span class="gp">... </span>    <span class="k">del</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">])</span>  <span class="c1"># you can delete an item given its key</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># see, only one item left!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># here it is</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># We can introduce this conversion layer in several ways. Here&#39;s a few... ######################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by subclassing ###############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="nb">dict</span><span class="p">())</span>  <span class="c1"># note that you don&#39;t need to specify dict(), since it&#39;s the default</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by assigning functions to converters ##########################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">_id_of_key</span><span class="p">,</span> <span class="n">_key_of_id</span><span class="p">,</span> <span class="n">_data_of_obj</span><span class="p">,</span> <span class="n">_obj_of_data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_id_of_key</span> <span class="o">=</span> <span class="n">_id_of_key</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_key_of_id</span> <span class="o">=</span> <span class="n">_key_of_id</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_data_of_obj</span> <span class="o">=</span> <span class="n">_data_of_obj</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_of_data</span> <span class="o">=</span> <span class="n">_obj_of_data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># using a Mixin class #############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Mixin</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">Store</span><span class="p">):</span>  <span class="c1"># note that the Mixin must come before Store in the mro</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">()</span>  <span class="c1"># no dict()? No, because default anyway</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># adding wrapper methods to an already made Store instance #########################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note on defining your own “Mapping Views”.</p>
+<p>When you do a <cite>.keys()</cite>, a <cite>.values()</cite> or <cite>.items()</cite> you’re getting a <cite>MappingView</cite>
+instance; an iterable and sized container that provides some methods to access
+particular aspects of the wrapped mapping.</p>
+<p>If you need to customize the behavior of these instances, you should avoid
+overriding the <cite>keys</cite>, <cite>values</cite> or <cite>items</cite> methods directly, but instead
+override the <cite>KeysView</cite>, <cite>ValuesView</cite> or <cite>ItemsView</cite> classes that they use.</p>
+<p>For more, see: <a class="reference external" href="https://github.com/i2mint/dol/wiki/Mapping-Views">https://github.com/i2mint/dol/wiki/Mapping-Views</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.KaggleMetadataReader">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">KaggleMetadataReader</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">group</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sort_by</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filetype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">license</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tagids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">search</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">user</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_page</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_n_pages</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">warn_if_there_are_more_items</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#KaggleMetadataReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.KaggleMetadataReader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.LocalKaggleMeta">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">LocalKaggleMeta</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#LocalKaggleMeta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.LocalKaggleMeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>By store we mean key-value store. This could be files in a filesystem, objects in s3, or a database. Where and
+how the content is stored should be specified, but StoreInterface offers a dict-like interface to this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="fm">__getitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                                       <span class="n">_obj_of_data</span>
+<span class="fm">__setitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                   <span class="n">_data_of_obj</span>
+<span class="fm">__delitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>
+<span class="fm">__iter__</span>    <span class="n">calls</span><span class="p">:</span>                  <span class="n">_key_of_id</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Default store: no key or value conversion #####################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">Store</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># see that the store contains the same thing</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now let&#39;s make stores that have a key and value conversion layer ##############</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input keys will be upper cased, and output keys lower cased ###################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input values (assumed int) will be converted to ascii string, and visa versa ##</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>  <span class="c1"># write 33 to &#39;foo&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __contains__ works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;no_such_key&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __nin__ works</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>  <span class="c1"># write 65 to &#39;bar&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>  <span class="c1"># there are indeed two elements</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># these are the keys</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># the keys() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">65</span><span class="p">]</span>  <span class="c1"># the values() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># these are the items</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;FOO&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;BAR&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)]</span>  <span class="c1"># but note the internal representation</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span>  <span class="c1"># the get method works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;no_such_key&#39;</span><span class="p">,</span> <span class="s1">&#39;something&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>  <span class="c1"># return a default value</span>
+<span class="gp">... </span>    <span class="k">del</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">])</span>  <span class="c1"># you can delete an item given its key</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># see, only one item left!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># here it is</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># We can introduce this conversion layer in several ways. Here&#39;s a few... ######################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by subclassing ###############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="nb">dict</span><span class="p">())</span>  <span class="c1"># note that you don&#39;t need to specify dict(), since it&#39;s the default</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by assigning functions to converters ##########################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">_id_of_key</span><span class="p">,</span> <span class="n">_key_of_id</span><span class="p">,</span> <span class="n">_data_of_obj</span><span class="p">,</span> <span class="n">_obj_of_data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_id_of_key</span> <span class="o">=</span> <span class="n">_id_of_key</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_key_of_id</span> <span class="o">=</span> <span class="n">_key_of_id</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_data_of_obj</span> <span class="o">=</span> <span class="n">_data_of_obj</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_of_data</span> <span class="o">=</span> <span class="n">_obj_of_data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># using a Mixin class #############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Mixin</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">Store</span><span class="p">):</span>  <span class="c1"># note that the Mixin must come before Store in the mro</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">()</span>  <span class="c1"># no dict()? No, because default anyway</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># adding wrapper methods to an already made Store instance #########################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note on defining your own “Mapping Views”.</p>
+<p>When you do a <cite>.keys()</cite>, a <cite>.values()</cite> or <cite>.items()</cite> you’re getting a <cite>MappingView</cite>
+instance; an iterable and sized container that provides some methods to access
+particular aspects of the wrapped mapping.</p>
+<p>If you need to customize the behavior of these instances, you should avoid
+overriding the <cite>keys</cite>, <cite>values</cite> or <cite>items</cite> methods directly, but instead
+override the <cite>KeysView</cite>, <cite>ValuesView</cite> or <cite>ItemsView</cite> classes that they use.</p>
+<p>For more, see: <a class="reference external" href="https://github.com/i2mint/dol/wiki/Mapping-Views">https://github.com/i2mint/dol/wiki/Mapping-Views</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.LocalKaggleZips">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">LocalKaggleZips</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#LocalKaggleZips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.LocalKaggleZips" title="Permalink to this definition">¶</a></dt>
+<dd><p>By store we mean key-value store. This could be files in a filesystem, objects in s3, or a database. Where and
+how the content is stored should be specified, but StoreInterface offers a dict-like interface to this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="fm">__getitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                                       <span class="n">_obj_of_data</span>
+<span class="fm">__setitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>                   <span class="n">_data_of_obj</span>
+<span class="fm">__delitem__</span> <span class="n">calls</span><span class="p">:</span> <span class="n">_id_of_key</span>
+<span class="fm">__iter__</span>    <span class="n">calls</span><span class="p">:</span>                  <span class="n">_key_of_id</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Default store: no key or value conversion #####################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dol</span> <span class="kn">import</span> <span class="n">Store</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># see that the store contains the same thing</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Now let&#39;s make stores that have a key and value conversion layer ##############</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input keys will be upper cased, and output keys lower cased ###################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># input values (assumed int) will be converted to ascii string, and visa versa ##</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#################################################################################</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>  <span class="c1"># write 33 to &#39;foo&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;foo&#39;</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __contains__ works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="s1">&#39;no_such_key&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __nin__ works</span>
+<span class="gp">... </span>    <span class="n">s</span><span class="p">[</span><span class="s1">&#39;bar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">65</span>  <span class="c1"># write 65 to &#39;bar&#39;</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>  <span class="c1"># there are indeed two elements</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># these are the keys</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">]</span>  <span class="c1"># the keys() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">==</span> <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">65</span><span class="p">]</span>  <span class="c1"># the values() method works!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># these are the items</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;FOO&#39;</span><span class="p">,</span> <span class="s1">&#39;!&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;BAR&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)]</span>  <span class="c1"># but note the internal representation</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span>  <span class="c1"># the get method works</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;no_such_key&#39;</span><span class="p">,</span> <span class="s1">&#39;something&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>  <span class="c1"># return a default value</span>
+<span class="gp">... </span>    <span class="k">del</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">])</span>  <span class="c1"># you can delete an item given its key</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># see, only one item left!</span>
+<span class="gp">... </span>    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">==</span> <span class="p">[(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">65</span><span class="p">)]</span>  <span class="c1"># here it is</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># We can introduce this conversion layer in several ways. Here&#39;s a few... ######################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by subclassing ###############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="nb">dict</span><span class="p">())</span>  <span class="c1"># note that you don&#39;t need to specify dict(), since it&#39;s the default</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># by assigning functions to converters ##########################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Store</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">_id_of_key</span><span class="p">,</span> <span class="n">_key_of_id</span><span class="p">,</span> <span class="n">_data_of_obj</span><span class="p">,</span> <span class="n">_obj_of_data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_id_of_key</span> <span class="o">=</span> <span class="n">_id_of_key</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_key_of_id</span> <span class="o">=</span> <span class="n">_key_of_id</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_data_of_obj</span> <span class="o">=</span> <span class="n">_data_of_obj</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_obj_of_data</span> <span class="o">=</span> <span class="n">_obj_of_data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+<span class="gp">... </span>            <span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># using a Mixin class #############################################################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Mixin</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_id_of_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_key_of_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_obj_of_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyStore</span><span class="p">(</span><span class="n">Mixin</span><span class="p">,</span> <span class="n">Store</span><span class="p">):</span>  <span class="c1"># note that the Mixin must come before Store in the mro</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyStore</span><span class="p">()</span>  <span class="c1"># no dict()? No, because default anyway</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># adding wrapper methods to an already made Store instance #########################################</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Store</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_id_of_key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_key_of_id</span><span class="o">=</span><span class="k">lambda</span> <span class="n">_id</span><span class="p">:</span> <span class="n">_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_data_of_obj</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">chr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">_obj_of_data</span><span class="o">=</span><span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="nb">ord</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_store</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note on defining your own “Mapping Views”.</p>
+<p>When you do a <cite>.keys()</cite>, a <cite>.values()</cite> or <cite>.items()</cite> you’re getting a <cite>MappingView</cite>
+instance; an iterable and sized container that provides some methods to access
+particular aspects of the wrapped mapping.</p>
+<p>If you need to customize the behavior of these instances, you should avoid
+overriding the <cite>keys</cite>, <cite>values</cite> or <cite>items</cite> methods directly, but instead
+override the <cite>KeysView</cite>, <cite>ValuesView</cite> or <cite>ItemsView</cite> classes that they use.</p>
+<p>For more, see: <a class="reference external" href="https://github.com/i2mint/dol/wiki/Mapping-Views">https://github.com/i2mint/dol/wiki/Mapping-Views</a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="haggle.dacc.RelZipFiles">
+<em class="property">class </em><code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">RelZipFiles</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#RelZipFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.RelZipFiles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="haggle.dacc.owner_and_dataset_slugs">
+<code class="sig-prename descclassname">haggle.dacc.</code><code class="sig-name descname">owner_and_dataset_slugs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ref</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/haggle/dacc.html#owner_and_dataset_slugs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#haggle.dacc.owner_and_dataset_slugs" title="Permalink to this definition">¶</a></dt>
+<dd><p>try to get the owner and dataset slugs from a ref</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../haggle.html" class="btn btn-neutral float-left" title="haggle" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="small_test.html" class="btn btn-neutral float-right" title="haggle.small_test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
