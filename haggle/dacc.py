@@ -214,6 +214,7 @@ def owner_and_dataset_slugs(ref):
         )
     return owner_slug, dataset_slug
 
+
 # TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to
 #  KaggleDatasetReader.
 #   For example, by having a from_info_reader classmethod constructor,
