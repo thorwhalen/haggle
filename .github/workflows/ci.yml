@@ -2,7 +2,8 @@ name: Continuous Integration
 on: [push, pull_request]
 env:
   PROJECT_NAME: haggle
-  ENV_VARS: ${{ secrets.ENV_VARS }}
+  KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+  KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
 
 jobs:
   validation:
@@ -15,15 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set Environment Variables from Specific Secrets
-        run: |
-          secrets_list=${{env.ENV_VARS}}
-          for secret_name in $secrets_list; do
-            if [ ! -z "${{ secrets[secret_name] }}" ]; then
-              echo "$secret_name=${{ secrets[secret_name] }}" >> $GITHUB_ENV
-            fi
-          done
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
