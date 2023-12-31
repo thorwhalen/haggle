@@ -89,7 +89,7 @@ jobs:
 
       - name: Publish
         run: |
-          twine upload dist/$PROJECT_NAME-$VERSION.tar.gz -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} --non-interactive  --skip-existing --disable-progress-bar
+          twine upload dist/$PROJECT_NAME-$VERSION.tar.gz -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} --non-interactive  --skip-existing --disable-progress-bar  --verbose
           epythet make . github
 
       - name: Push Changes
