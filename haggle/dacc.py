@@ -204,6 +204,16 @@ class KaggleDatasetInfoReader(KvReader):
             )
 
 
+def owner_and_dataset_slugs(ref):
+    """try to get the owner and dataset slugs from a ref"""
+    try:
+        owner_slug, dataset_slug = ref.split('/')
+    except ValueError:
+        raise ValueError(
+            f'Invalid ref: {ref}. Should be of the form "owner_slug/dataset_slug"'
+        )
+    return owner_slug, dataset_slug
+
 # TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to
 #  KaggleDatasetReader.
 #   For example, by having a from_info_reader classmethod constructor,
@@ -223,7 +233,7 @@ class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
         bytes
 
         """
-        owner_slug, dataset_slug = k.split('/')
+        owner_slug, dataset_slug = owner_and_dataset_slugs(k)
         response = self._source.process_response(
             self._source.datasets_download_with_http_info(
                 owner_slug=owner_slug, dataset_slug=dataset_slug, _preload_content=False
@@ -247,7 +257,7 @@ class KaggleDatasetReader(KaggleBytesDatasetReader):
 class KaggleMetadataReader(KaggleDatasetInfoReader):
     def __getitem__(self, k):
         """Get metadata of a dataset"""
-        owner_slug, dataset_slug = k.split('/')
+        owner_slug, dataset_slug = owner_and_dataset_slugs(k)
         return self._source.metadata_get(owner_slug, dataset_slug)
 
 
