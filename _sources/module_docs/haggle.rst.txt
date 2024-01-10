@@ -1,4 +1,0 @@
-haggle
-======
-.. automodule:: haggle
-   :members:
