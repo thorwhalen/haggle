@@ -368,3 +368,8 @@ class KaggleDatasets(_KaggleDatasets):
         if self.cache_metas_on_search:
             self.meta.extend(ka.cached_info_items)  # cache these
         return ka
+
+
+def get_kaggle_dataset(dataset, rootdir=DFLT_ROOTDIR):
+    kaggle_store = KaggleDatasets(rootdir=rootdir)
+    return kaggle_store[dataset]
