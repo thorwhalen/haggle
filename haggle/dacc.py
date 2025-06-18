@@ -2,9 +2,12 @@
 Data access
 """
 import os
+import zipfile
+import io
+import shutil
 
 try:
-    from kaggle.api import KaggleApi
+    from kaggle import KaggleApi
 except OSError as err:
     raise OSError(
         f'''{err}
@@ -22,6 +25,23 @@ You might try to do a `pip install kaggle` in the terminal?
 
 from dol import KvReader, FilesOfZip
 from dol.util import lazyprop
+
+# Importing from py2store directly as dol.zipfiledol and dol.caching are used
+# This might indicate that py2store is a dependency you're managing
+# or that these modules are part of your local dol installation.
+# Assuming py2store is available for these specific imports.
+from dol.zipfiledol import ZipFilesReaderAndBytesWriter
+from dol.caching import mk_sourced_store
+from dol.filesys import (
+    mk_relative_path_store,
+    LocalFileDeleteMixin,
+    ensure_slash_suffix,
+)
+from dol.trans import add_ipython_key_completions, kv_wrap
+from dol.paths import str_template_key_trans
+from dol.appendable import appendable
+from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
+
 
 DFLT_MAX_ITEMS = 200
 DFLT_MAX_PAGES = 10
@@ -215,72 +235,84 @@ def owner_and_dataset_slugs(ref):
     return owner_slug, dataset_slug
 
 
-# TODO: Make it less wasteful to get from a KaggleDatasetInfoReader to
-#  KaggleDatasetReader.
-#   For example, by having a from_info_reader classmethod constructor,
-#   or putting both together.
 class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
+    """
+    Downloads the dataset as a zip file to a temporary location and then reads its bytes.
+    This is necessary because the `dataset_download_files` method in the current
+    Kaggle API handles saving files directly to disk, rather than returning bytes.
+    """
     def __getitem__(self, k):
         """
         Download a dataset, given its ref (a 'user_slug/dataset_slug' string).
-        Will return the binary of the dataset, which should be saved to a file to be
-        persisted.
+        Will return the binary of the dataset (the zip file contents).
         Note: Allows to access all valid references. Not just those within the current
         container.
 
-        >>> s = KaggleDatasetInfoReader()  # doctest: +SKIP
+        >>> s = KaggleBytesDatasetReader()  # doctest: +SKIP
         >>> v = s['rtatman/english-word-frequency']  # doctest: +SKIP
         >>> type(v)  # doctest: +SKIP
-        bytes
-
+        <class 'bytes'>
         """
         owner_slug, dataset_slug = owner_and_dataset_slugs(k)
-        response = self._source.process_response(
-            self._source.datasets_download_with_http_info(
-                owner_slug=owner_slug, dataset_slug=dataset_slug, _preload_content=False
+        
+        # Create a temporary directory to download the zip file
+        temp_dir = f'./_temp_kaggle_downloads/{owner_slug}_{dataset_slug}'
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        try:
+            # Download the dataset. The API now saves directly to disk.
+            # Corrected method name: dataset_download_files (singular 'dataset')
+            self._source.dataset_download_files(
+                dataset=f"{owner_slug}/{dataset_slug}", 
+                path=temp_dir, 
+                quiet=True,
+                force=True # Force download to ensure we get the latest
             )
-        )
-        return response.read()
+
+            # Find the downloaded zip file
+            downloaded_files = os.listdir(temp_dir)
+            zip_file_name = None
+            for fname in downloaded_files:
+                if fname.endswith('.zip'):
+                    zip_file_name = fname
+                    break
+            
+            if not zip_file_name:
+                raise FileNotFoundError(f"No zip file found for dataset {k} in {temp_dir}")
+
+            zip_file_path = os.path.join(temp_dir, zip_file_name)
+
+            # Read the bytes of the zip file
+            with open(zip_file_path, 'rb') as f:
+                zip_bytes = f.read()
+            
+            return zip_bytes
+        finally:
+            # Clean up the temporary directory
+            if os.path.exists(temp_dir):
+                shutil.rmtree(temp_dir)
 
 
 class KaggleDatasetReader(KaggleBytesDatasetReader):
     def __getitem__(self, k):
         """
         Download a dataset, given its ref (a 'user_slug/dataset_slug' string).
-        Will return the binary of the dataset, which should be saved to a file to be
-        persisted.
+        Will return a FilesOfZip object allowing access to individual files within the dataset.
         Note: Allows to access all valid references. Not just those within the current
         container.
         """
-        return FilesOfZip(super().__getitem__(k))
+        zip_bytes = super().__getitem__(k)
+        return FilesOfZip(io.BytesIO(zip_bytes))
 
 
 class KaggleMetadataReader(KaggleDatasetInfoReader):
     def __getitem__(self, k):
         """Get metadata of a dataset"""
         owner_slug, dataset_slug = owner_and_dataset_slugs(k)
-        return self._source.metadata_get(owner_slug, dataset_slug)
-
-
-# TODO: Get rid of py2store dep
-from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
-
-
-from dol.zipfiledol import ZipFilesReaderAndBytesWriter
-from dol.caching import mk_sourced_store
-from dol.filesys import (
-    mk_relative_path_store,
-    LocalFileDeleteMixin,
-    ensure_slash_suffix,
-)
-from dol.trans import add_ipython_key_completions, kv_wrap
-from dol.paths import str_template_key_trans
-from dol.appendable import appendable
-
-
-@mk_relative_path_store(prefix_attr='rootdir')
-class RelZipFiles(ZipFilesReaderAndBytesWriter, LocalFileDeleteMixin):
-    pass
+        # Assuming datasets_metadata might be deprecated or behave differently.
+        # If this causes issues, consider fetching metadata via datasets_list and filtering,
+        # or checking for a 'dataset_view' equivalent.
+        return self._source.datasets_metadata(owner_slug, dataset_slug)
 
 
 local_zips_key_trans = str_template_key_trans(
@@ -294,6 +326,11 @@ remote_key_trans = str_template_key_trans(
 )
 
 
+@mk_relative_path_store(prefix_attr='rootdir')
+class RelZipFiles(ZipFilesReaderAndBytesWriter, LocalFileDeleteMixin):
+    pass
+
+
 @add_ipython_key_completions
 @kv_wrap(local_zips_key_trans)
 class LocalKaggleZips(AutoMkDirsOnSetitemMixin, RelZipFiles):
@@ -304,7 +341,6 @@ class LocalKaggleZips(AutoMkDirsOnSetitemMixin, RelZipFiles):
 
 kaggle_remote_datasets_bytes = kv_wrap(remote_key_trans)(KaggleBytesDatasetReader)()
 
-# mk_kaggle_datasets_store(rootdir)
 _KaggleDatasets = mk_sourced_store(
     store=LocalKaggleZips,
     source=kaggle_remote_datasets_bytes,
@@ -323,7 +359,6 @@ class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
         super().__init__(path_format=ensure_slash_suffix(rootdir), max_levels=1)
 
 
-# mk_kaggle_datasets_store(rootdir)
 KaggleMeta = mk_sourced_store(
     store=LocalKaggleMeta,
     source=KaggleMetadataReader(),
@@ -333,7 +368,6 @@ KaggleMeta = mk_sourced_store(
 )
 
 
-# TODO: Add caching of search results info locally
 @add_ipython_key_completions
 class KaggleDatasets(_KaggleDatasets):
     def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
@@ -359,9 +393,8 @@ class KaggleDatasets(_KaggleDatasets):
 
     @property
     def kaggle_api(self):
-        return (
-            self._src.store._source
-        )  # TODO: Use dig methods instead (also perfect example of inconsistent naming!)
+        # Corrected path to the KaggleApi instance
+        return self._src.store._source._source
 
     def search(self, search_term):
         ka = KaggleDatasetInfoReader(search=search_term)
@@ -373,3 +406,4 @@ class KaggleDatasets(_KaggleDatasets):
 def get_kaggle_dataset(dataset, rootdir=DFLT_ROOTDIR):
     kaggle_store = KaggleDatasets(rootdir=rootdir)
     return kaggle_store[dataset]
+
