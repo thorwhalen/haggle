@@ -1,6 +1,7 @@
 """
 Data access
 """
+
 import os
 import zipfile
 import io
@@ -10,17 +11,17 @@ try:
     from kaggle import KaggleApi
 except OSError as err:
     raise OSError(
-        f'''{err}
+        f"""{err}
 Do you have a kaggle API token? Did you put it in the right place? 
 See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
 It's quick and easy (oh, and free!)!!
-'''
+"""
     )
 except ModuleNotFoundError as err:
     raise ModuleNotFoundError(
-        f'''{err}
+        f"""{err}
 You might try to do a `pip install kaggle` in the terminal?
-'''
+"""
     )
 
 from dol import KvReader, FilesOfZip
@@ -46,8 +47,8 @@ from py2store.stores.local_store import AutoMkDirsOnSetitemMixin, LocalJsonStore
 DFLT_MAX_ITEMS = 200
 DFLT_MAX_PAGES = 10
 
-ROOTDIR_ENVVAR = 'HAGGLE_ROOTDIR'
-DFLT_ROOTDIR = os.environ.get(ROOTDIR_ENVVAR, os.path.expanduser('~/haggle'))
+ROOTDIR_ENVVAR = "HAGGLE_ROOTDIR"
+DFLT_ROOTDIR = os.environ.get(ROOTDIR_ENVVAR, os.path.expanduser("~/haggle"))
 
 
 def clog(condition, *args):
@@ -55,15 +56,15 @@ def clog(condition, *args):
         print(*args)
 
 
-def handle_missing_dir(dirpath, prefix_msg='', ask_first=True, verbose=True):
+def handle_missing_dir(dirpath, prefix_msg="", ask_first=True, verbose=True):
     if not os.path.isdir(dirpath):
         if ask_first:
             clog(verbose, prefix_msg)
             clog(verbose, f"This directory doesn't exist: {dirpath}")
-            answer = input('Should I make that directory for you? ([Y]/n)?') or 'Y'
-            if next(iter(answer.strip().lower()), None) != 'y':
+            answer = input("Should I make that directory for you? ([Y]/n)?") or "Y"
+            if next(iter(answer.strip().lower()), None) != "y":
                 return
-        clog(verbose, f'Making {dirpath}...')
+        clog(verbose, f"Making {dirpath}...")
         os.mkdir(dirpath)
 
 
@@ -76,7 +77,7 @@ class DataInfoPaggedItems:
         # TODO: Atomize this code so it can't be broken by async
         page = self.n_pages()
         for i, v in enumerate(page_contents):
-            ref = v.get('ref', None)
+            ref = v.get("ref", None)
             if ref is not None:
                 self.ref_to_idx[ref] = (page, i)
         self.pages.append(page_contents)
@@ -153,13 +154,13 @@ class KaggleDatasetInfoReader(KvReader):
         :param kwargs:
         """
         explicit_fields = {
-            'group',
-            'sort_by',
-            'filetype',
-            'license',
-            'tagids',
-            'search',
-            'user',
+            "group",
+            "sort_by",
+            "filetype",
+            "license",
+            "tagids",
+            "search",
+            "user",
         }
         locs = locals()
         kwargs.update(**{k: locs[k] for k in explicit_fields if locs[k] is not None})
@@ -188,7 +189,7 @@ class KaggleDatasetInfoReader(KvReader):
 
     @lazyprop
     def info_of_ref(self):
-        return {item['ref']: item for item in self.cached_info_items}
+        return {item["ref"]: item for item in self.cached_info_items}
 
     @lazyprop
     def cached_info_items(self):
@@ -216,18 +217,18 @@ class KaggleDatasetInfoReader(KvReader):
             from warnings import warn
 
             warn(
-                f'The container has {n} items, but the max number of pages'
-                f'({self.max_n_pages}) was reached, so there may be more '
-                f'on kaggle than what you see! '
-                'If you want more, set max_items to something higher '
-                '(but beware of overusing your API rights)'
+                f"The container has {n} items, but the max number of pages"
+                f"({self.max_n_pages}) was reached, so there may be more "
+                f"on kaggle than what you see! "
+                "If you want more, set max_items to something higher "
+                "(but beware of overusing your API rights)"
             )
 
 
 def owner_and_dataset_slugs(ref):
     """try to get the owner and dataset slugs from a ref"""
     try:
-        owner_slug, dataset_slug = ref.split('/')
+        owner_slug, dataset_slug = ref.split("/")
     except ValueError:
         raise ValueError(
             f'Invalid ref: {ref}. Should be of the form "owner_slug/dataset_slug"'
@@ -241,6 +242,7 @@ class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
     This is necessary because the `dataset_download_files` method in the current
     Kaggle API handles saving files directly to disk, rather than returning bytes.
     """
+
     def __getitem__(self, k):
         """
         Download a dataset, given its ref (a 'user_slug/dataset_slug' string).
@@ -254,38 +256,40 @@ class KaggleBytesDatasetReader(KaggleDatasetInfoReader):
         <class 'bytes'>
         """
         owner_slug, dataset_slug = owner_and_dataset_slugs(k)
-        
+
         # Create a temporary directory to download the zip file
-        temp_dir = f'./_temp_kaggle_downloads/{owner_slug}_{dataset_slug}'
+        temp_dir = f"./_temp_kaggle_downloads/{owner_slug}_{dataset_slug}"
         os.makedirs(temp_dir, exist_ok=True)
-        
+
         try:
             # Download the dataset. The API now saves directly to disk.
             # Corrected method name: dataset_download_files (singular 'dataset')
             self._source.dataset_download_files(
-                dataset=f"{owner_slug}/{dataset_slug}", 
-                path=temp_dir, 
+                dataset=f"{owner_slug}/{dataset_slug}",
+                path=temp_dir,
                 quiet=True,
-                force=True # Force download to ensure we get the latest
+                force=True,  # Force download to ensure we get the latest
             )
 
             # Find the downloaded zip file
             downloaded_files = os.listdir(temp_dir)
             zip_file_name = None
             for fname in downloaded_files:
-                if fname.endswith('.zip'):
+                if fname.endswith(".zip"):
                     zip_file_name = fname
                     break
-            
+
             if not zip_file_name:
-                raise FileNotFoundError(f"No zip file found for dataset {k} in {temp_dir}")
+                raise FileNotFoundError(
+                    f"No zip file found for dataset {k} in {temp_dir}"
+                )
 
             zip_file_path = os.path.join(temp_dir, zip_file_name)
 
             # Read the bytes of the zip file
-            with open(zip_file_path, 'rb') as f:
+            with open(zip_file_path, "rb") as f:
                 zip_bytes = f.read()
-            
+
             return zip_bytes
         finally:
             # Clean up the temporary directory
@@ -316,17 +320,17 @@ class KaggleMetadataReader(KaggleDatasetInfoReader):
 
 
 local_zips_key_trans = str_template_key_trans(
-    '{user}/{dataset_name}.zip', str_template_key_trans.key_types.str
+    "{user}/{dataset_name}.zip", str_template_key_trans.key_types.str
 )
 local_meta_key_trans = str_template_key_trans(
-    '{user}/{dataset_name}.json', str_template_key_trans.key_types.str
+    "{user}/{dataset_name}.json", str_template_key_trans.key_types.str
 )
 remote_key_trans = str_template_key_trans(
-    '{user}/{dataset_name}', str_template_key_trans.key_types.str
+    "{user}/{dataset_name}", str_template_key_trans.key_types.str
 )
 
 
-@mk_relative_path_store(prefix_attr='rootdir')
+@mk_relative_path_store(prefix_attr="rootdir")
 class RelZipFiles(ZipFilesReaderAndBytesWriter, LocalFileDeleteMixin):
     pass
 
@@ -345,13 +349,13 @@ _KaggleDatasets = mk_sourced_store(
     store=LocalKaggleZips,
     source=kaggle_remote_datasets_bytes,
     return_source_data=False,
-    __name__='KaggleDatasets',
+    __name__="KaggleDatasets",
     __module__=__name__,
 )
 
 
 @add_ipython_key_completions
-@appendable(item2kv=appendable.mk_item2kv_for.field('ref'))
+@appendable(item2kv=appendable.mk_item2kv_for.field("ref"))
 @kv_wrap(local_meta_key_trans)
 class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
     def __init__(self, rootdir):
@@ -363,7 +367,7 @@ KaggleMeta = mk_sourced_store(
     store=LocalKaggleMeta,
     source=KaggleMetadataReader(),
     return_source_data=True,
-    __name__='KaggleMeta',
+    __name__="KaggleMeta",
     __module__=__name__,
 )
 
@@ -372,7 +376,7 @@ KaggleMeta = mk_sourced_store(
 class KaggleDatasets(_KaggleDatasets):
     def __init__(self, rootdir=DFLT_ROOTDIR, cache_metas_on_search=True):
         rootdir = rootdir or DFLT_ROOTDIR
-        handle_missing_dir(rootdir, 'You (or defaults) asked for a rootdir...')
+        handle_missing_dir(rootdir, "You (or defaults) asked for a rootdir...")
         self.rootdir = rootdir
         handle_missing_dir(self.zips_dir, ask_first=False)
         handle_missing_dir(self.meta_dir, ask_first=False)
@@ -385,11 +389,11 @@ class KaggleDatasets(_KaggleDatasets):
 
     @property
     def zips_dir(self):
-        return self.pjoin('zips')
+        return self.pjoin("zips")
 
     @property
     def meta_dir(self):
-        return self.pjoin('meta')
+        return self.pjoin("meta")
 
     @property
     def kaggle_api(self):
@@ -406,4 +410,3 @@ class KaggleDatasets(_KaggleDatasets):
 def get_kaggle_dataset(dataset, rootdir=DFLT_ROOTDIR):
     kaggle_store = KaggleDatasets(rootdir=rootdir)
     return kaggle_store[dataset]
-
