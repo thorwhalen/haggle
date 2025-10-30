@@ -375,7 +375,7 @@ class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
                 return [to_serializable(item) for item in o]
             elif isinstance(o, dict):
                 return {k: to_serializable(v) for k, v in o.items()}
-            elif hasattr(o, '__dict__'):
+            elif hasattr(o, "__dict__"):
                 # Convert custom objects to dicts
                 return {k: to_serializable(v) for k, v in vars(o).items()}
             else:
