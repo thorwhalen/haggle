@@ -77,7 +77,7 @@ class DataInfoPaggedItems:
         # TODO: Atomize this code so it can't be broken by async
         page = self.n_pages()
         for i, v in enumerate(page_contents):
-            ref = v.get("ref", None)
+            ref = getattr(v, "ref", None)
             if ref is not None:
                 self.ref_to_idx[ref] = (page, i)
         self.pages.append(page_contents)
@@ -115,8 +115,8 @@ class KaggleDatasetInfoReader(KvReader):
         what you see
 
     >>> ka = KaggleDatasetInfoReader(search='coronavirus covid')  # doctest: +SKIP
-    >>> ka = KaggleDatasetInfoReader(
-    ...         user='sudalairajkumar', start_page=1, max_n_pages=2)  # doctest: +SKIP
+    >>> ka = KaggleDatasetInfoReader(  # doctest: +SKIP
+    ...         user='sudalairajkumar', start_page=1, max_n_pages=2)
 
     """
 
@@ -176,7 +176,7 @@ class KaggleDatasetInfoReader(KvReader):
     def _info_items_gen(self):
         page_num = self.start_page
         while (page_num - self.start_page) < self.max_n_pages:
-            new_page_contents = self._source.datasets_list(
+            new_page_contents = self._source.dataset_list(
                 page=page_num, **self.dataset_filt
             )
             if len(new_page_contents) > 0:
@@ -189,7 +189,7 @@ class KaggleDatasetInfoReader(KvReader):
 
     @lazyprop
     def info_of_ref(self):
-        return {item["ref"]: item for item in self.cached_info_items}
+        return {item.ref: item for item in self.cached_info_items}
 
     @lazyprop
     def cached_info_items(self):
@@ -200,7 +200,7 @@ class KaggleDatasetInfoReader(KvReader):
 
     def __getitem__(self, k):
         """
-        Get information (a dict) about a dataset, given its ref
+        Get information (an ApiDataset object) about a dataset, given its ref
         (a 'user_slug/dataset_slug' string).
         Note: Allows to access all valid references. Not just those within the current
         container.
@@ -312,11 +312,9 @@ class KaggleDatasetReader(KaggleBytesDatasetReader):
 class KaggleMetadataReader(KaggleDatasetInfoReader):
     def __getitem__(self, k):
         """Get metadata of a dataset"""
-        owner_slug, dataset_slug = owner_and_dataset_slugs(k)
-        # Assuming datasets_metadata might be deprecated or behave differently.
-        # If this causes issues, consider fetching metadata via datasets_list and filtering,
-        # or checking for a 'dataset_view' equivalent.
-        return self._source.datasets_metadata(owner_slug, dataset_slug)
+        # The dataset_metadata method takes the full ref (owner/dataset) and a path
+        # We pass None for path to get the metadata without downloading to a file
+        return self._source.dataset_metadata(k, None)
 
 
 local_zips_key_trans = str_template_key_trans(
@@ -355,12 +353,37 @@ _KaggleDatasets = mk_sourced_store(
 
 
 @add_ipython_key_completions
-@appendable(item2kv=appendable.mk_item2kv_for.field("ref"))
+@appendable(item2kv=appendable.mk_item2kv_for.attr("ref"))
 @kv_wrap(local_meta_key_trans)
 class LocalKaggleMeta(AutoMkDirsOnSetitemMixin, LocalJsonStore):
     def __init__(self, rootdir):
         handle_missing_dir(rootdir)
         super().__init__(path_format=ensure_slash_suffix(rootdir), max_levels=1)
+
+    def _data_of_obj(self, obj):
+        """Override to convert ApiDataset objects to dictionaries before JSON serialization."""
+        import datetime
+        import json
+
+        def to_serializable(o):
+            """Recursively convert objects to JSON-serializable types."""
+            if isinstance(o, datetime.datetime):
+                return o.isoformat()
+            elif isinstance(o, (str, int, float, bool, type(None))):
+                return o
+            elif isinstance(o, (list, tuple)):
+                return [to_serializable(item) for item in o]
+            elif isinstance(o, dict):
+                return {k: to_serializable(v) for k, v in o.items()}
+            elif hasattr(o, '__dict__'):
+                # Convert custom objects to dicts
+                return {k: to_serializable(v) for k, v in vars(o).items()}
+            else:
+                # For anything else, try to convert to string
+                return str(o)
+
+        obj = to_serializable(obj)
+        return json.dumps(obj)
 
 
 KaggleMeta = mk_sourced_store(
