@@ -407,6 +407,19 @@ class KaggleDatasets(_KaggleDatasets):
         self.meta = KaggleMeta(self.meta_dir)  # make the LocalKaggleInfo instance
         self.cache_metas_on_search = cache_metas_on_search
 
+    def __getitem__(self, dataset):
+        """Get a Kaggle dataset by ref or by full Kaggle URL.
+
+        Parameters
+        ----------
+        dataset:
+            Either a Kaggle dataset ref ("owner/dataset") or an http(s) Kaggle URL
+            of the form "https://www.kaggle.com/datasets/<owner>/<dataset>".
+        """
+        if isinstance(dataset, str) and dataset.startswith(("http://", "https://")):
+            dataset = _kaggle_dataset_ref_from_http_url(dataset)
+        return super().__getitem__(dataset)
+
     def pjoin(self, *p):
         return os.path.join(self.rootdir, *p)
 
@@ -430,6 +443,62 @@ class KaggleDatasets(_KaggleDatasets):
         return ka
 
 
+def _kaggle_dataset_ref_from_http_url(url: str) -> str:
+    """Extract a Kaggle dataset ref ("owner/dataset") from a Kaggle URL.
+
+    This is used to make higher-level helpers accept either a dataset ref or the
+    full URL you might copy-paste from Kaggle.
+
+    Examples
+    --------
+    >>> _kaggle_dataset_ref_from_http_url('https://www.kaggle.com/datasets/rtatman/emojinet')
+    'rtatman/emojinet'
+    >>> _kaggle_dataset_ref_from_http_url('https://kaggle.com/datasets/rtatman/emojinet?select=README.md')
+    'rtatman/emojinet'
+    >>> _kaggle_dataset_ref_from_http_url('https://www.kaggle.com/datasets/rtatman/emojinet/')
+    'rtatman/emojinet'
+    """
+    from urllib.parse import urlparse
+
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"}:
+        raise ValueError(f"Expected an http(s) URL. Got: {url!r}")
+
+    netloc = (parsed.netloc or "").lower()
+    if not netloc.endswith("kaggle.com"):
+        raise ValueError(
+            f"Expected a Kaggle URL with netloc ending in 'kaggle.com'. Got: {url!r}"
+        )
+
+    path = (parsed.path or "").strip("/")
+    parts = [p for p in path.split("/") if p]
+
+    # Canonical dataset URLs are: /datasets/<owner>/<dataset>
+    if len(parts) >= 3 and parts[0] == "datasets":
+        owner, dataset_name = parts[1], parts[2]
+        if owner and dataset_name:
+            return f"{owner}/{dataset_name}"
+
+    raise ValueError(
+        "Unrecognized Kaggle dataset URL format. Expected something like "
+        "'https://www.kaggle.com/datasets/<owner>/<dataset>'. "
+        f"Got: {url!r}"
+    )
+
+
 def get_kaggle_dataset(dataset, rootdir=DFLT_ROOTDIR):
+    """Get a Kaggle dataset.
+
+    Parameters
+    ----------
+    dataset:
+        Either a Kaggle dataset ref ("owner/dataset") or an http(s) Kaggle URL
+        of the form "https://www.kaggle.com/datasets/<owner>/<dataset>".
+
+    Examples
+    --------
+    >>> get_kaggle_dataset('https://www.kaggle.com/datasets/rtatman/emojinet')  # doctest: +SKIP
+    ...
+    """
     kaggle_store = KaggleDatasets(rootdir=rootdir)
     return kaggle_store[dataset]
