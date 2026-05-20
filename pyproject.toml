@@ -105,6 +105,11 @@ test_envvars = []
 extra_envvars = []
 
 [tool.wads.ci.env.defaults]
+# The kaggle package checks for credentials at import time. Dummy values
+# satisfy the env-var ("environment method") check so `import haggle`
+# succeeds; real API calls aren't exercised in CI.
+KAGGLE_USERNAME = "ci"
+KAGGLE_KEY = "ci"
 
 [tool.wads.ci.quality.ruff]
 enabled = true
