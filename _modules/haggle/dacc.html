@@ -1,0 +1,642 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>haggle.dacc &mdash; haggle 0.1.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=71734efd"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            haggle
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/haggle.html">haggle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/haggle/dacc.html">haggle.dacc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/haggle/small_test.html">haggle.small_test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">haggle</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">haggle.dacc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for haggle.dacc</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Data access</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">kaggle</span><span class="w"> </span><span class="kn">import</span> <span class="n">KaggleApi</span>
+<span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">err</span><span class="si">}</span>
+<span class="s2">Do you have a kaggle API token? Did you put it in the right place? </span>
+<span class="s2">See https://github.com/Kaggle/kaggle-api#api-credentials for more information.</span>
+<span class="s2">It&#39;s quick and easy (oh, and free!)!!</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="n">err</span><span class="si">}</span>
+<span class="s2">You might try to do a `pip install kaggle` in the terminal?</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">KvReader</span><span class="p">,</span> <span class="n">FilesOfZip</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">lazyprop</span>
+
+<span class="c1"># Importing from py2store directly as dol.zipfiledol and dol.caching are used</span>
+<span class="c1"># This might indicate that py2store is a dependency you&#39;re managing</span>
+<span class="c1"># or that these modules are part of your local dol installation.</span>
+<span class="c1"># Assuming py2store is available for these specific imports.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.zipfiledol</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZipFilesReaderAndBytesWriter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.caching</span><span class="w"> </span><span class="kn">import</span> <span class="n">mk_sourced_store</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.filesys</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mk_relative_path_store</span><span class="p">,</span>
+    <span class="n">LocalFileDeleteMixin</span><span class="p">,</span>
+    <span class="n">ensure_slash_suffix</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.trans</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_ipython_key_completions</span><span class="p">,</span> <span class="n">kv_wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">str_template_key_trans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol.appendable</span><span class="w"> </span><span class="kn">import</span> <span class="n">appendable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">py2store.stores.local_store</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoMkDirsOnSetitemMixin</span><span class="p">,</span> <span class="n">LocalJsonStore</span>
+
+
+<span class="n">DFLT_MAX_ITEMS</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">DFLT_MAX_PAGES</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">ROOTDIR_ENVVAR</span> <span class="o">=</span> <span class="s2">&quot;HAGGLE_ROOTDIR&quot;</span>
+<span class="n">DFLT_ROOTDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ROOTDIR_ENVVAR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/haggle&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clog</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_missing_dir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">prefix_msg</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ask_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ask_first</span><span class="p">:</span>
+            <span class="n">clog</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="n">prefix_msg</span><span class="p">)</span>
+            <span class="n">clog</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;This directory doesn&#39;t exist: </span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Should I make that directory for you? ([Y]/n)?&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;Y&quot;</span>
+            <span class="k">if</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="n">clog</span><span class="p">(</span><span class="n">verbose</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Making </span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DataInfoPaggedItems</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_to_idx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_contents</span><span class="p">):</span>
+        <span class="c1"># TODO: Atomize this code so it can&#39;t be broken by async</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_pages</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">page_contents</span><span class="p">):</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;ref&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ref</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ref_to_idx</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">page_contents</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="n">page</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref_to_idx</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_to_idx</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_page_contents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">[</span><span class="n">page</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pages</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="KaggleDatasetInfoReader">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.KaggleDatasetInfoReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KaggleDatasetInfoReader</span><span class="p">(</span><span class="n">KvReader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A KvReader to access Kaggle resources.</span>
+
+<span class="sd">    Prerequisites:</span>
+<span class="sd">        pip install kaggle</span>
+<span class="sd">        Having a kaggle api token where the kaggle library will be looking for it</span>
+<span class="sd">            (see https://github.com/Kaggle/kaggle-api#api-credentials)</span>
+
+<span class="sd">    You seed a Reader by specifying any combination of things like search terms, groups,</span>
+<span class="sd">    filetypes etc.</span>
+<span class="sd">    See `kaggle.api` for more information.</span>
+<span class="sd">    Additional (and specific to py2store reader) arguments are</span>
+<span class="sd">        start_page (default 0, but useful for paging),</span>
+<span class="sd">        max_n_pages (to not hit the API too hard if your query is large), and</span>
+<span class="sd">        warn_if_there_are_more_items if you want to be warned if there&#39;s more items than</span>
+<span class="sd">        what you see</span>
+
+<span class="sd">    &gt;&gt;&gt; ka = KaggleDatasetInfoReader(search=&#39;coronavirus covid&#39;)  # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; ka = KaggleDatasetInfoReader(  # doctest: +SKIP</span>
+<span class="sd">    ...         user=&#39;sudalairajkumar&#39;, start_page=1, max_n_pages=2)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sort_by</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">filetype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">license</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tagids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">search</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">start_page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">max_n_pages</span><span class="o">=</span><span class="n">DFLT_MAX_PAGES</span><span class="p">,</span>
+        <span class="n">warn_if_there_are_more_items</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param async_req bool</span>
+<span class="sd">        :param str group: Display datasets by a particular group</span>
+<span class="sd">        :param str sort_by: Sort the results</span>
+<span class="sd">        :param str filetype: Display datasets of a specific file type</span>
+<span class="sd">        :param str license: Display datasets with a specific license</span>
+<span class="sd">        :param str tagids: A comma separated list of tags to filter by</span>
+<span class="sd">        :param str search: Search terms</span>
+<span class="sd">        :param str user: Display datasets by a specific user or organization</span>
+<span class="sd">        :param int start_page: Page to start at (default is 0)</span>
+<span class="sd">        :param int max_n_pages: Maximum number of pages the container should hold</span>
+<span class="sd">            (to avoid API overuse)</span>
+<span class="sd">        :param bool warn_if_there_are_more_items: To be warned if there&#39;s more items</span>
+<span class="sd">            than what you see</span>
+<span class="sd">        :param int max_size: Max Dataset Size (bytes)</span>
+<span class="sd">        :param int min_size: Max Dataset Size (bytes)</span>
+<span class="sd">        :param kwargs:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">explicit_fields</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;group&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sort_by&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;filetype&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;license&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tagids&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;search&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">locs</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">locs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">explicit_fields</span> <span class="k">if</span> <span class="n">locs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_filt</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">KaggleApi</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">authenticate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_page</span> <span class="o">=</span> <span class="n">start_page</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_n_pages</span> <span class="o">=</span> <span class="n">max_n_pages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warn_if_there_are_more_items</span> <span class="o">=</span> <span class="n">warn_if_there_are_more_items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_page</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_pages_reached</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_info_items_gen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">page_num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_page</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">page_num</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_page</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_n_pages</span><span class="p">:</span>
+            <span class="n">new_page_contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">dataset_list</span><span class="p">(</span>
+                <span class="n">page</span><span class="o">=</span><span class="n">page_num</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset_filt</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_page_contents</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">new_page_contents</span>
+                <span class="n">page_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">max_pages_reached</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_page</span> <span class="o">=</span> <span class="n">page_num</span>
+
+    <span class="nd">@lazyprop</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">info_of_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">item</span><span class="o">.</span><span class="n">ref</span><span class="p">:</span> <span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_info_items</span><span class="p">}</span>
+
+    <span class="nd">@lazyprop</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cached_info_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_info_items_gen</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">info_of_ref</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information (an ApiDataset object) about a dataset, given its ref</span>
+<span class="sd">        (a &#39;user_slug/dataset_slug&#39; string).</span>
+<span class="sd">        Note: Allows to access all valid references. Not just those within the current</span>
+<span class="sd">        container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">info_of_ref</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info_of_ref</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_warn_reached_max</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">n</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_warn_reached_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_pages_reached</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">warn_if_there_are_more_items</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The container has </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> items, but the max number of pages&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_n_pages</span><span class="si">}</span><span class="s2">) was reached, so there may be more &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;on kaggle than what you see! &quot;</span>
+                <span class="s2">&quot;If you want more, set max_items to something higher &quot;</span>
+                <span class="s2">&quot;(but beware of overusing your API rights)&quot;</span>
+            <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="owner_and_dataset_slugs">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.owner_and_dataset_slugs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">owner_and_dataset_slugs</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;try to get the owner and dataset slugs from a ref&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">owner_slug</span><span class="p">,</span> <span class="n">dataset_slug</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Invalid ref: </span><span class="si">{</span><span class="n">ref</span><span class="si">}</span><span class="s1">. Should be of the form &quot;owner_slug/dataset_slug&quot;&#39;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">owner_slug</span><span class="p">,</span> <span class="n">dataset_slug</span></div>
+
+
+
+<div class="viewcode-block" id="KaggleBytesDatasetReader">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.KaggleBytesDatasetReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KaggleBytesDatasetReader</span><span class="p">(</span><span class="n">KaggleDatasetInfoReader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downloads the dataset as a zip file to a temporary location and then reads its bytes.</span>
+<span class="sd">    This is necessary because the `dataset_download_files` method in the current</span>
+<span class="sd">    Kaggle API handles saving files directly to disk, rather than returning bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download a dataset, given its ref (a &#39;user_slug/dataset_slug&#39; string).</span>
+<span class="sd">        Will return the binary of the dataset (the zip file contents).</span>
+<span class="sd">        Note: Allows to access all valid references. Not just those within the current</span>
+<span class="sd">        container.</span>
+
+<span class="sd">        &gt;&gt;&gt; s = KaggleBytesDatasetReader()  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; v = s[&#39;rtatman/english-word-frequency&#39;]  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; type(v)  # doctest: +SKIP</span>
+<span class="sd">        &lt;class &#39;bytes&#39;&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">owner_slug</span><span class="p">,</span> <span class="n">dataset_slug</span> <span class="o">=</span> <span class="n">owner_and_dataset_slugs</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="c1"># Create a temporary directory to download the zip file</span>
+        <span class="n">temp_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./_temp_kaggle_downloads/</span><span class="si">{</span><span class="n">owner_slug</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">dataset_slug</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Download the dataset. The API now saves directly to disk.</span>
+            <span class="c1"># Corrected method name: dataset_download_files (singular &#39;dataset&#39;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">dataset_download_files</span><span class="p">(</span>
+                <span class="n">dataset</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">owner_slug</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">dataset_slug</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">path</span><span class="o">=</span><span class="n">temp_dir</span><span class="p">,</span>
+                <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Force download to ensure we get the latest</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Find the downloaded zip file</span>
+            <span class="n">downloaded_files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+            <span class="n">zip_file_name</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">downloaded_files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.zip&quot;</span><span class="p">):</span>
+                    <span class="n">zip_file_name</span> <span class="o">=</span> <span class="n">fname</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">zip_file_name</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;No zip file found for dataset </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">temp_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">zip_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">zip_file_name</span><span class="p">)</span>
+
+            <span class="c1"># Read the bytes of the zip file</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">zip_file_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">zip_bytes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">zip_bytes</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Clean up the temporary directory</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">):</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="KaggleDatasetReader">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.KaggleDatasetReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KaggleDatasetReader</span><span class="p">(</span><span class="n">KaggleBytesDatasetReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download a dataset, given its ref (a &#39;user_slug/dataset_slug&#39; string).</span>
+<span class="sd">        Will return a FilesOfZip object allowing access to individual files within the dataset.</span>
+<span class="sd">        Note: Allows to access all valid references. Not just those within the current</span>
+<span class="sd">        container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">zip_bytes</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FilesOfZip</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">zip_bytes</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="KaggleMetadataReader">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.KaggleMetadataReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">KaggleMetadataReader</span><span class="p">(</span><span class="n">KaggleDatasetInfoReader</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get metadata of a dataset&quot;&quot;&quot;</span>
+        <span class="c1"># The dataset_metadata method takes the full ref (owner/dataset) and a path</span>
+        <span class="c1"># We pass None for path to get the metadata without downloading to a file</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">dataset_metadata</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+
+<span class="n">local_zips_key_trans</span> <span class="o">=</span> <span class="n">str_template_key_trans</span><span class="p">(</span>
+    <span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">/</span><span class="si">{dataset_name}</span><span class="s2">.zip&quot;</span><span class="p">,</span> <span class="n">str_template_key_trans</span><span class="o">.</span><span class="n">key_types</span><span class="o">.</span><span class="n">str</span>
+<span class="p">)</span>
+<span class="n">local_meta_key_trans</span> <span class="o">=</span> <span class="n">str_template_key_trans</span><span class="p">(</span>
+    <span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">/</span><span class="si">{dataset_name}</span><span class="s2">.json&quot;</span><span class="p">,</span> <span class="n">str_template_key_trans</span><span class="o">.</span><span class="n">key_types</span><span class="o">.</span><span class="n">str</span>
+<span class="p">)</span>
+<span class="n">remote_key_trans</span> <span class="o">=</span> <span class="n">str_template_key_trans</span><span class="p">(</span>
+    <span class="s2">&quot;</span><span class="si">{user}</span><span class="s2">/</span><span class="si">{dataset_name}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">str_template_key_trans</span><span class="o">.</span><span class="n">key_types</span><span class="o">.</span><span class="n">str</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="RelZipFiles">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.RelZipFiles">[docs]</a>
+<span class="nd">@mk_relative_path_store</span><span class="p">(</span><span class="n">prefix_attr</span><span class="o">=</span><span class="s2">&quot;rootdir&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RelZipFiles</span><span class="p">(</span><span class="n">ZipFilesReaderAndBytesWriter</span><span class="p">,</span> <span class="n">LocalFileDeleteMixin</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="LocalKaggleZips">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.LocalKaggleZips">[docs]</a>
+<span class="nd">@add_ipython_key_completions</span>
+<span class="nd">@kv_wrap</span><span class="p">(</span><span class="n">local_zips_key_trans</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LocalKaggleZips</span><span class="p">(</span><span class="n">AutoMkDirsOnSetitemMixin</span><span class="p">,</span> <span class="n">RelZipFiles</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rootdir</span><span class="p">):</span>
+        <span class="n">handle_missing_dir</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">rootdir</span><span class="o">=</span><span class="n">ensure_slash_suffix</span><span class="p">(</span><span class="n">rootdir</span><span class="p">),</span> <span class="n">max_levels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<span class="n">kaggle_remote_datasets_bytes</span> <span class="o">=</span> <span class="n">kv_wrap</span><span class="p">(</span><span class="n">remote_key_trans</span><span class="p">)(</span><span class="n">KaggleBytesDatasetReader</span><span class="p">)()</span>
+
+<span class="n">_KaggleDatasets</span> <span class="o">=</span> <span class="n">mk_sourced_store</span><span class="p">(</span>
+    <span class="n">store</span><span class="o">=</span><span class="n">LocalKaggleZips</span><span class="p">,</span>
+    <span class="n">source</span><span class="o">=</span><span class="n">kaggle_remote_datasets_bytes</span><span class="p">,</span>
+    <span class="n">return_source_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="vm">__name__</span><span class="o">=</span><span class="s2">&quot;KaggleDatasets&quot;</span><span class="p">,</span>
+    <span class="vm">__module__</span><span class="o">=</span><span class="vm">__name__</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="LocalKaggleMeta">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.LocalKaggleMeta">[docs]</a>
+<span class="nd">@add_ipython_key_completions</span>
+<span class="nd">@appendable</span><span class="p">(</span><span class="n">item2kv</span><span class="o">=</span><span class="n">appendable</span><span class="o">.</span><span class="n">mk_item2kv_for</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s2">&quot;ref&quot;</span><span class="p">))</span>
+<span class="nd">@kv_wrap</span><span class="p">(</span><span class="n">local_meta_key_trans</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LocalKaggleMeta</span><span class="p">(</span><span class="n">AutoMkDirsOnSetitemMixin</span><span class="p">,</span> <span class="n">LocalJsonStore</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rootdir</span><span class="p">):</span>
+        <span class="n">handle_missing_dir</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path_format</span><span class="o">=</span><span class="n">ensure_slash_suffix</span><span class="p">(</span><span class="n">rootdir</span><span class="p">),</span> <span class="n">max_levels</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_data_of_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override to convert ApiDataset objects to dictionaries before JSON serialization.&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">to_serializable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Recursively convert objects to JSON-serializable types.&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))):</span>
+                <span class="k">return</span> <span class="n">o</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">to_serializable</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">o</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">to_serializable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">o</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s2">&quot;__dict__&quot;</span><span class="p">):</span>
+                <span class="c1"># Convert custom objects to dicts</span>
+                <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">to_serializable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># For anything else, try to convert to string</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">to_serializable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+
+
+<span class="n">KaggleMeta</span> <span class="o">=</span> <span class="n">mk_sourced_store</span><span class="p">(</span>
+    <span class="n">store</span><span class="o">=</span><span class="n">LocalKaggleMeta</span><span class="p">,</span>
+    <span class="n">source</span><span class="o">=</span><span class="n">KaggleMetadataReader</span><span class="p">(),</span>
+    <span class="n">return_source_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="vm">__name__</span><span class="o">=</span><span class="s2">&quot;KaggleMeta&quot;</span><span class="p">,</span>
+    <span class="vm">__module__</span><span class="o">=</span><span class="vm">__name__</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="KaggleDatasets">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.KaggleDatasets">[docs]</a>
+<span class="nd">@add_ipython_key_completions</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">KaggleDatasets</span><span class="p">(</span><span class="n">_KaggleDatasets</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rootdir</span><span class="o">=</span><span class="n">DFLT_ROOTDIR</span><span class="p">,</span> <span class="n">cache_metas_on_search</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="ow">or</span> <span class="n">DFLT_ROOTDIR</span>
+        <span class="n">handle_missing_dir</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span> <span class="s2">&quot;You (or defaults) asked for a rootdir...&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rootdir</span> <span class="o">=</span> <span class="n">rootdir</span>
+        <span class="n">handle_missing_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zips_dir</span><span class="p">,</span> <span class="n">ask_first</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">handle_missing_dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_dir</span><span class="p">,</span> <span class="n">ask_first</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zips_dir</span><span class="p">)</span>  <span class="c1"># make the _KaggleDatasets instance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">KaggleMeta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meta_dir</span><span class="p">)</span>  <span class="c1"># make the LocalKaggleInfo instance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_metas_on_search</span> <span class="o">=</span> <span class="n">cache_metas_on_search</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a Kaggle dataset by ref or by full Kaggle URL.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataset:</span>
+<span class="sd">            Either a Kaggle dataset ref (&quot;owner/dataset&quot;) or an http(s) Kaggle URL</span>
+<span class="sd">            of the form &quot;https://www.kaggle.com/datasets/&lt;owner&gt;/&lt;dataset&gt;&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dataset</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="s2">&quot;https://&quot;</span><span class="p">)):</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">_kaggle_dataset_ref_from_http_url</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">pjoin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rootdir</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">zips_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pjoin</span><span class="p">(</span><span class="s2">&quot;zips&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">meta_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pjoin</span><span class="p">(</span><span class="s2">&quot;meta&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kaggle_api</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Corrected path to the KaggleApi instance</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">_source</span><span class="o">.</span><span class="n">_source</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">):</span>
+        <span class="n">ka</span> <span class="o">=</span> <span class="n">KaggleDatasetInfoReader</span><span class="p">(</span><span class="n">search</span><span class="o">=</span><span class="n">search_term</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_metas_on_search</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ka</span><span class="o">.</span><span class="n">cached_info_items</span><span class="p">)</span>  <span class="c1"># cache these</span>
+        <span class="k">return</span> <span class="n">ka</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_kaggle_dataset_ref_from_http_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a Kaggle dataset ref (&quot;owner/dataset&quot;) from a Kaggle URL.</span>
+
+<span class="sd">    This is used to make higher-level helpers accept either a dataset ref or the</span>
+<span class="sd">    full URL you might copy-paste from Kaggle.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; _kaggle_dataset_ref_from_http_url(&#39;https://www.kaggle.com/datasets/rtatman/emojinet&#39;)</span>
+<span class="sd">    &#39;rtatman/emojinet&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _kaggle_dataset_ref_from_http_url(&#39;https://kaggle.com/datasets/rtatman/emojinet?select=README.md&#39;)</span>
+<span class="sd">    &#39;rtatman/emojinet&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _kaggle_dataset_ref_from_http_url(&#39;https://www.kaggle.com/datasets/rtatman/emojinet/&#39;)</span>
+<span class="sd">    &#39;rtatman/emojinet&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlparse</span>
+
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;http&quot;</span><span class="p">,</span> <span class="s2">&quot;https&quot;</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected an http(s) URL. Got: </span><span class="si">{</span><span class="n">url</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">netloc</span> <span class="o">=</span> <span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">netloc</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">netloc</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;kaggle.com&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected a Kaggle URL with netloc ending in &#39;kaggle.com&#39;. Got: </span><span class="si">{</span><span class="n">url</span><span class="si">!r}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">path</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span><span class="p">]</span>
+
+    <span class="c1"># Canonical dataset URLs are: /datasets/&lt;owner&gt;/&lt;dataset&gt;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datasets&quot;</span><span class="p">:</span>
+        <span class="n">owner</span><span class="p">,</span> <span class="n">dataset_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">owner</span> <span class="ow">and</span> <span class="n">dataset_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">owner</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;Unrecognized Kaggle dataset URL format. Expected something like &quot;</span>
+        <span class="s2">&quot;&#39;https://www.kaggle.com/datasets/&lt;owner&gt;/&lt;dataset&gt;&#39;. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Got: </span><span class="si">{</span><span class="n">url</span><span class="si">!r}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_kaggle_dataset">
+<a class="viewcode-back" href="../../module_docs/haggle/dacc.html#haggle.dacc.get_kaggle_dataset">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_kaggle_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">rootdir</span><span class="o">=</span><span class="n">DFLT_ROOTDIR</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a Kaggle dataset.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataset:</span>
+<span class="sd">        Either a Kaggle dataset ref (&quot;owner/dataset&quot;) or an http(s) Kaggle URL</span>
+<span class="sd">        of the form &quot;https://www.kaggle.com/datasets/&lt;owner&gt;/&lt;dataset&gt;&quot;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; get_kaggle_dataset(&#39;https://www.kaggle.com/datasets/rtatman/emojinet&#39;)  # doctest: +SKIP</span>
+<span class="sd">    ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kaggle_store</span> <span class="o">=</span> <span class="n">KaggleDatasets</span><span class="p">(</span><span class="n">rootdir</span><span class="o">=</span><span class="n">rootdir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">kaggle_store</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
