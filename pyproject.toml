@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "haggle"
-version = "0.1.17"
+version = "0.1.18"
 description = "A facade to Kaggle data"
 readme = "README.md"
 requires-python = ">=3.10"
