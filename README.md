@@ -37,8 +37,8 @@ rootdir = None  # define (or not) where you want the data to be cached/downloade
 
 s = KaggleDatasets(rootdir)  # make an instance
 
-if 'rtatman/english-word-frequency' in s:
-    del s['rtatman/english-word-frequency']  # just to prepare for the demo
+if "rtatman/english-word-frequency" in s:
+    del s["rtatman/english-word-frequency"]  # just to prepare for the demo
 ```
 
 
@@ -58,7 +58,7 @@ Let's search something (you can also search on [kaggle](https://www.kaggle.com/)
 
 
 ```python
-results = s.search('word frequency')
+results = s.search("word frequency")
 print(f"{len(results)=}")
 list(results)[:10]
 ```
@@ -85,7 +85,7 @@ Chose what you want? Good, now do this:
 
 
 ```python
-v = s['rtatman/english-word-frequency']
+v = s["rtatman/english-word-frequency"]
 type(v)
 ```
 
@@ -126,7 +126,7 @@ Oh, and still pretending to be a dict.
 
 
 ```python
-b = v['unigram_freq.csv']
+b = v["unigram_freq.csv"]
 print(f"b is a {type(b)} and has {len(b)} bytes")
 ```
 
@@ -221,7 +221,8 @@ Namely, you can get a value for the keys we've listed
 
 ```python
 from pprint import pprint
-pprint(results['rtatman/english-word-frequency'])
+
+pprint(results["rtatman/english-word-frequency"])
 ```
 
     {'creatorName': 'Rachael Tatman',
@@ -297,8 +298,11 @@ Personally, I like transform those results in a `DataFrame` that I can subsequen
 
 ```python
 import pandas as pd
-df = pd.DataFrame(results.values())[['ref', 'title', 'subtitle', 'downloadCount', 'totalBytes']]
-df = df.set_index('ref').sort_values('downloadCount', ascending=False)
+
+df = pd.DataFrame(results.values())[
+    ["ref", "title", "subtitle", "downloadCount", "totalBytes"]
+]
+df = df.set_index("ref").sort_values("downloadCount", ascending=False)
 # print(df.head(10).to_markdown())  # markdown for first 10 rows
 ```
 
@@ -378,7 +382,7 @@ list(s.meta)[:7]
 
 
 ```python
-pprint(s.meta['emmabel/word-occurrences-in-mr-robot'])
+pprint(s.meta["emmabel/word-occurrences-in-mr-robot"])
 ```
 
     {'creatorName': 'Emma',
@@ -445,7 +449,7 @@ So if you want to search locally for information (again, information about your 
 Markdown for the 10 first rows...
 ```python
 t = df.head(10).dropna(axis=1)
-del t['tags']
+del t["tags"]
 print(t.to_markdown())
 ```
 
@@ -527,18 +531,19 @@ from haggle import KaggleDatasets
 s = KaggleDatasets()  # make an instance
 # results = s.search('coronavirus')
 # ref = next(iter(results))  # see that results iteration works
-ref = 'sanchman/coronavirus-present-data'
+ref = "sanchman/coronavirus-present-data"
 if ref in s:  # delete if exists
     del s[ref]
 assert ref not in s  # see, not there
 v = s[ref]  # redownload
 assert ref in s  # see, not there
-assert 'PresentData.xlsx' in set(v)  # and it has stuff in v
+assert "PresentData.xlsx" in set(v)  # and it has stuff in v
 
 import pandas as pd
 import io
-df = pd.read_excel(io.BytesIO(v['PresentData.xlsx']))
-assert 'Total Confirmed' in df.columns
-assert 'Country' in df.columns
-assert 'France' in df['Country'].values
+
+df = pd.read_excel(io.BytesIO(v["PresentData.xlsx"]))
+assert "Total Confirmed" in df.columns
+assert "Country" in df.columns
+assert "France" in df["Country"].values
 ```
