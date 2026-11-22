@@ -1,0 +1,15 @@
+# haggle
+
+> A facade to Kaggle data
+
+
+## Pages in this subsection
+
+- [API Reference](index.html.md): This page contains auto-generated API reference documentation &lt;sup&gt;1&lt;/sup&gt;.
+- [haggle](haggle/index.html.md): Access to kaggle datasets the simplest way possible.
+- [haggle.dacc](haggle/dacc/index.html.md): Data access
+- [haggle.small_test](haggle/small_test/index.html.md): Main documentation page
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

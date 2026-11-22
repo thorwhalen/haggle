@@ -1,132 +1,978 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html lang="en" data-accent-color="plum" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to haggle’s documentation! &mdash; haggle 0.1.19 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>haggle</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API Reference" href="api/index.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="Haggle"/>
+    <meta name="twitter:card" content="summary"/>
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=3d116926"></script>
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+</head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="#">
+      
+      
+      <strong>haggle</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/haggle" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/haggle/index.html">haggle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/haggle/dacc/index.html">haggle.dacc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/haggle/small_test/index.html">haggle.small_test</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#">Haggle</a></li>
+<li><a class="reference internal" href="#simple-example">Simple example</a><ul>
+<li><a class="reference internal" href="#by-the-way">By the way…</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#search-results-and-dataset-metadata">Search results and dataset metadata</a><ul>
+<li><a class="reference internal" href="#meta">.meta</a></li>
+<li><a class="reference internal" href="#cached-search-info">Cached search info</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-boring-stuff">The boring stuff</a><ul>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#api-credentials">API credentials</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#f-a-q">F.A.Q.</a><ul>
+<li><a class="reference internal" href="#what-if-i-don-t-want-a-zip-file-anymore">What if I don’t want a zip file anymore?</a></li>
+<li><a class="reference internal" href="#do-you-have-any-jupyter-notebooks-demoing-this">Do you have any jupyter notebooks demoing this.</a></li>
+<li><a class="reference internal" href="#a-little-snippet-of-code-to-test">A little snippet of code to test?</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="#"><span itemprop="name">haggle</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Haggle</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <!-- generated by epythet -->
+<ul class="simple">
+<li><p><a class="reference internal" href="#haggle">Haggle</a></p></li>
+<li><p><a class="reference internal" href="#simple-example">Simple example</a></p>
+<ul>
+<li><p><a class="reference internal" href="#by-the-way">By the way…</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#search-results-and-dataset-metadata">Search results and dataset metadata</a></p>
+<ul>
+<li><p><a class="reference internal" href="#meta">.meta</a></p></li>
+<li><p><a class="reference internal" href="#cached-search-info">Cached search info</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#the-boring-stuff">The boring stuff</a></p>
+<ul>
+<li><p><a class="reference internal" href="#install">Install</a></p></li>
+<li><p><a class="reference internal" href="#api-credentials">API credentials</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#f-a-q">F.A.Q.</a></p>
+<ul>
+<li><p><a class="reference internal" href="#what-if-i-don-t-want-a-zip-file-anymore-"><span class="xref myst">What if I don’t want a zip file anymore?</span></a></p></li>
+<li><p><a class="reference internal" href="#do-you-have-any-jupyter-notebooks-demoing-this">Do you have any jupyter notebooks demoing this.</a></p></li>
+<li><p><a class="reference internal" href="#a-little-snippet-of-code-to-test-"><span class="xref myst">A little snippet of code to test?</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p><small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small></p>
+<section id="haggle">
+<h1>Haggle<a class="headerlink" href="#haggle" title="Link to this heading">#</a></h1>
+<p>A simple facade to <a class="reference external" href="https://www.kaggle.com/">Kaggle</a> data.</p>
+<p>Essentially, instantiate a <code class="docutils literal notranslate"><span class="pre">KaggleDatasets</span></code> object, and from it search datasets, see their metadata, download the data
+(automatically caching it in well organized folders), and all from an interface that looks like
+a humble dict with <code class="docutils literal notranslate"><span class="pre">owner/dataset</span></code> keys, and that’s the coolest bit.</p>
+<p><strong>Haggle:</strong> /ˈhaɡəl/</p>
+<ul class="simple">
+<li><p>an instance of intense argument (as in bargaining)</p></li>
+<li><p>wrangle (over a price, terms of an agreement, etc.)</p></li>
+<li><p>rhymes with Kaggle and is not taken on pypi (well, now it is)</p></li>
+</ul>
+</section>
+<section id="simple-example">
+<h1>Simple example<a class="headerlink" href="#simple-example" title="Link to this heading">#</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">haggle</span><span class="w"> </span><span class="kn">import</span> <span class="n">KaggleDatasets</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">rootdir</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># define (or not) where you want the data to be cached/downloaded</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="n">s</span> <span class="o">=</span> <span class="n">KaggleDatasets</span><span class="p">(</span><span class="n">rootdir</span><span class="p">)</span>  <span class="c1"># make an instance</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="k">if</span> <span class="s2">"rtatman/english-word-frequency"</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+</span><span data-line="8">    <span class="k">del</span> <span class="n">s</span><span class="p">[</span><span class="s2">"rtatman/english-word-frequency"</span><span class="p">]</span>  <span class="c1"># just to prepare for the demo</span>
+</span></pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># see what you have locally</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">['uciml/human-activity-recognition-with-smartphones',
+</span><span data-line="2"> 'sitsawek/phonetics-articles-on-plos']
+</span></pre></div>
+</div>
+<p>Let’s search something (you can also search on <a class="reference external" href="https://www.kaggle.com/">kaggle</a>, I was kidding about it being lame!)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">results</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"word frequency"</span><span class="p">)</span>
+</span><span data-line="2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+</span><span data-line="3"><span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">len(results)=180
+</span><span data-line="2">
+</span><span data-line="3">
+</span><span data-line="4">
+</span><span data-line="5">
+</span><span data-line="6">['rtatman/english-word-frequency',
+</span><span data-line="7"> 'yekenot/fasttext-crawl-300d-2m',
+</span><span data-line="8"> 'rtatman/japanese-lemma-frequency',
+</span><span data-line="9"> 'rtatman/glove-global-vectors-for-word-representation',
+</span><span data-line="10"> 'averkij/lingtrain-hungarian-word-frequency',
+</span><span data-line="11"> 'lukevanhaezebrouck/subtlex-word-frequency',
+</span><span data-line="12"> 'facebook/fatsttext-common-crawl',
+</span><span data-line="13"> 'facebook/fasttext-wikinews',
+</span><span data-line="14"> 'facebook/fasttext-english-word-vectors-including-subwords',
+</span><span data-line="15"> 'kushtej/kannada-word-frequency']
+</span></pre></div>
+</div>
+<p>Chose what you want? Good, now do this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="s2">"rtatman/english-word-frequency"</span><span class="p">]</span>
+</span><span data-line="2"><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">py2store.slib.s_zipfile.ZipReader
+</span></pre></div>
+</div>
+<p>Okay, let’s slow down a moment. What happened? What’s this <code class="docutils literal notranslate"><span class="pre">ZipReader</span></code> thingy?</p>
+<p>Well, what happened is that this downloaded the zip file of the data for you and saved it in <code class="docutils literal notranslate"><span class="pre">ROOTDIR/rtatman/english-word-frequency.zip</span></code>. Don’t believe me? Go have a look.</p>
+<p>But then it also returns this object called <code class="docutils literal notranslate"><span class="pre">ZipReader</span></code> that points to it.</p>
+<p>If you don’t like it, you don’t have to use it. But I think you should like it.</p>
+<p>Look at what it can do!</p>
+<p>List the contents of file (that’s in the zip… okay there’s just one here, it’s a bit boring)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">['unigram_freq.csv']
+</span></pre></div>
+</div>
+<p>Retrieve the data for any given file of the zip without ever having to unzip it!</p>
+<p>Oh, and still pretending to be a dict.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">b</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s2">"unigram_freq.csv"</span><span class="p">]</span>
+</span><span data-line="2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"b is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2"> and has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes"</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">b is a &lt;class 'bytes'&gt; and has 4956252 bytes
+</span></pre></div>
+</div>
+<p>Now the data is given in bytes by default, since that’s the basis of everything.</p>
+<p>From there you can go everywhere. Here for example, say we’d like to go to <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">BytesIO</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</span><span data-line="5"><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">(333333, 2)
+</span></pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">  word        count
+</span><span data-line="2">0  the  23135851162
+</span><span data-line="3">1   of  13151942776
+</span><span data-line="4">2  and  12997637966
+</span><span data-line="5">3   to  12136980858
+</span><span data-line="6">4    a   9081174698
+</span><span data-line="7">5   in   8469404971
+</span><span data-line="8">6  for   5933321709
+</span></pre></div>
+</div>
+<p>And as mentioned, it caches the data to your local drive. You know, download, so that the next time you ask for <code class="docutils literal notranslate"><span class="pre">s['rtatman/english-word-frequency']</span></code>, it’ll be faster to get those bytes.</p>
+<p>See, let’s list the contents of <code class="docutils literal notranslate"><span class="pre">s</span></code> again and see that we now have that <code class="docutils literal notranslate"><span class="pre">'rtatman/english-word-frequency'</span></code> key we didn’t have before.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">['uciml/human-activity-recognition-with-smartphones',
+</span><span data-line="2"> 'rtatman/english-word-frequency',
+</span><span data-line="3"> 'sitsawek/phonetics-articles-on-plos']
+</span></pre></div>
+</div>
+<section id="by-the-way">
+<h2>By the way…<a class="headerlink" href="#by-the-way" title="Link to this heading">#</a></h2>
+<p>So a <code class="docutils literal notranslate"><span class="pre">KaggleDatasets</span></code> is a store with a dict-like interface.</p>
+<p>Listing happens locally. Remote listing is done through <code class="docutils literal notranslate"><span class="pre">.search(...)</span></code>.</p>
+<p>Getting happens locally first, and if not, will get remotely (and cache locally).</p>
+<p>Where are the zips stored? Ask <code class="docutils literal notranslate"><span class="pre">.zips_dir</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">s</span><span class="o">.</span><span class="n">zips_dir</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">'/D/Dropbox/_odata/kaggle/zips'
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="search-results-and-dataset-metadata">
+<h1>Search results and dataset metadata<a class="headerlink" href="#search-results-and-dataset-metadata" title="Link to this heading">#</a></h1>
+<p>Let’s have a closer look at those search results. All we did is a <code class="docutils literal notranslate"><span class="pre">len(results)</span></code> and a <code class="docutils literal notranslate"><span class="pre">list(results)</span></code>. What else can you do with that object?</p>
+<p>Well, as is so happens, you can do whatever (read-only) operation you can do on a – take a wild guess – a dict.</p>
+<p>Namely, you can get a value for the keys we’ve listed</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">pprint</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"rtatman/english-word-frequency"</span><span class="p">])</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">{'creatorName': 'Rachael Tatman',
+</span><span data-line="2"> 'creatorUrl': 'rtatman',
+</span><span data-line="3"> 'currentVersionNumber': 1,
+</span><span data-line="4"> 'description': None,
+</span><span data-line="5"> 'downloadCount': 3079,
+</span><span data-line="6"> 'files': [],
+</span><span data-line="7"> 'id': 2367,
+</span><span data-line="8"> 'isFeatured': False,
+</span><span data-line="9"> 'isPrivate': False,
+</span><span data-line="10"> 'isReviewed': True,
+</span><span data-line="11"> 'kernelCount': 12,
+</span><span data-line="12"> 'lastUpdated': '2017-09-06T18:21:27.18Z',
+</span><span data-line="13"> 'licenseName': 'Other (specified in description)',
+</span><span data-line="14"> 'ownerName': 'Rachael Tatman',
+</span><span data-line="15"> 'ownerRef': 'rtatman',
+</span><span data-line="16"> 'ref': 'rtatman/english-word-frequency',
+</span><span data-line="17"> 'subtitle': '⅓ Million Most Frequent English Words on the Web',
+</span><span data-line="18"> 'tags': [{'competitionCount': 3,
+</span><span data-line="19">           'datasetCount': 231,
+</span><span data-line="20">           'description': 'Language is a method of communication that consists '
+</span><span data-line="21">                          'of using words arranged into meaningful patterns. '
+</span><span data-line="22">                          'This is a good place to find natural language '
+</span><span data-line="23">                          'processing datasets and kernels to study languages '
+</span><span data-line="24">                          'and train your chat bots.',
+</span><span data-line="25">           'fullPath': 'topic &gt; culture and humanities &gt; languages',
+</span><span data-line="26">           'isAutomatic': False,
+</span><span data-line="27">           'name': 'languages',
+</span><span data-line="28">           'ref': 'languages',
+</span><span data-line="29">           'scriptCount': 77,
+</span><span data-line="30">           'totalCount': 311},
+</span><span data-line="31">          {'competitionCount': 6,
+</span><span data-line="32">           'datasetCount': 445,
+</span><span data-line="33">           'description': 'The linguistics tag contains datasets and kernels '
+</span><span data-line="34">                          'that you can use for text analytics, sentiment '
+</span><span data-line="35">                          'analyses, and making clever jokes like this: Let me '
+</span><span data-line="36">                          "tell you a little about myself. It's a reflexive "
+</span><span data-line="37">                          'pronoun that means "me."',
+</span><span data-line="38">           'fullPath': 'topic &gt; people and society &gt; social science &gt; '
+</span><span data-line="39">                       'linguistics',
+</span><span data-line="40">           'isAutomatic': False,
+</span><span data-line="41">           'name': 'linguistics',
+</span><span data-line="42">           'ref': 'linguistics',
+</span><span data-line="43">           'scriptCount': 122,
+</span><span data-line="44">           'totalCount': 573},
+</span><span data-line="45">          {'competitionCount': 18,
+</span><span data-line="46">           'datasetCount': 4172,
+</span><span data-line="47">           'description': 'An interconnected network of tubes that connects '
+</span><span data-line="48">                          'the entire world together. This tag covers a broad '
+</span><span data-line="49">                          'range of tags; anything from cryptocurrency to '
+</span><span data-line="50">                          'website analytics.',
+</span><span data-line="51">           'fullPath': 'topic &gt; science and technology &gt; internet',
+</span><span data-line="52">           'isAutomatic': False,
+</span><span data-line="53">           'name': 'internet',
+</span><span data-line="54">           'ref': 'internet',
+</span><span data-line="55">           'scriptCount': 198,
+</span><span data-line="56">           'totalCount': 4388}],
+</span><span data-line="57"> 'title': 'English Word Frequency',
+</span><span data-line="58"> 'topicCount': 1,
+</span><span data-line="59"> 'totalBytes': 2236581,
+</span><span data-line="60"> 'url': 'https://www.kaggle.com/rtatman/english-word-frequency',
+</span><span data-line="61"> 'usabilityRating': 0.8235294,
+</span><span data-line="62"> 'versions': [],
+</span><span data-line="63"> 'viewCount': 21726,
+</span><span data-line="64"> 'voteCount': 105}
+</span></pre></div>
+</div>
+<p>You get description, size, tags, download count… Useful stuff to make your choice.</p>
+<p>Personally, I like transform those results in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> that I can subsequently interrogate:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span>
+</span><span data-line="4">    <span class="p">[</span><span class="s2">"ref"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"subtitle"</span><span class="p">,</span> <span class="s2">"downloadCount"</span><span class="p">,</span> <span class="s2">"totalBytes"</span><span class="p">]</span>
+</span><span data-line="5"><span class="p">]</span>
+</span><span data-line="6"><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"ref"</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"downloadCount"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="7"><span class="c1"># print(df.head(10).to_markdown())  # markdown for first 10 rows</span>
+</span></pre></div>
+</div>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>ref</p></th>
+<th class="head text-left"><p>title</p></th>
+<th class="head text-left"><p>subtitle</p></th>
+<th class="head text-right"><p>downloadCount</p></th>
+<th class="head text-right"><p>totalBytes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>jealousleopard/goodreadsbooks</p></td>
+<td class="text-left"><p>Goodreads-books</p></td>
+<td class="text-left"><p>comprehensive list of all books listed in goodreads</p></td>
+<td class="text-right"><p>23640</p></td>
+<td class="text-right"><p>637338</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>uciml/zoo-animal-classification</p></td>
+<td class="text-left"><p>Zoo Animal Classification</p></td>
+<td class="text-left"><p>Use Machine Learning Methods to Correctly Classify Animals Based Upon Attributes</p></td>
+<td class="text-right"><p>16597</p></td>
+<td class="text-right"><p>1898</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>yekenot/fasttext-crawl-300d-2m</p></td>
+<td class="text-left"><p>FastText crawl 300d 2M</p></td>
+<td class="text-left"><p>2 million word vectors trained on Common Crawl (600B tokens)</p></td>
+<td class="text-right"><p>8275</p></td>
+<td class="text-right"><p>1.54555e+09</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>rtatman/sentiment-lexicons-for-81-languages</p></td>
+<td class="text-left"><p>Sentiment Lexicons for 81 Languages</p></td>
+<td class="text-left"><p>Sentiment Polarity Lexicons (Positive vs. Negative)</p></td>
+<td class="text-right"><p>7960</p></td>
+<td class="text-right"><p>1.62176e+06</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rtatman/glove-global-vectors-for-word-representation</p></td>
+<td class="text-left"><p>GloVe: Global Vectors for Word Representation</p></td>
+<td class="text-left"><p>Pre-trained word vectors from Wikipedia 2014 + Gigaword 5</p></td>
+<td class="text-right"><p>7432</p></td>
+<td class="text-right"><p>4.80173e+08</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>mozillaorg/common-voice</p></td>
+<td class="text-left"><p>Common Voice</p></td>
+<td class="text-left"><p>500 hours of speech recordings, with speaker demographics</p></td>
+<td class="text-right"><p>6075</p></td>
+<td class="text-right"><p>1.29315e+10</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>arathee2/demonetization-in-india-twitter-data</p></td>
+<td class="text-left"><p>Demonetization in India Twitter Data</p></td>
+<td class="text-left"><p>Data extracted from Twitter regarding the recent currency demonetization</p></td>
+<td class="text-right"><p>5761</p></td>
+<td class="text-right"><p>919578</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>eibriel/rdany-conversations</p></td>
+<td class="text-left"><p>rDany Chat</p></td>
+<td class="text-left"><p>157 chats &amp; 6300+ messages with a (fake) virtual companion</p></td>
+<td class="text-right"><p>3983</p></td>
+<td class="text-right"><p>916724</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>mrisdal/2016-us-presidential-debates</p></td>
+<td class="text-left"><p>2016 US Presidential Debates</p></td>
+<td class="text-left"><p>Full transcripts of the face-off between Clinton &amp; Trump</p></td>
+<td class="text-right"><p>3920</p></td>
+<td class="text-right"><p>123161</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>nobelfoundation/nobel-laureates</p></td>
+<td class="text-left"><p>Nobel Laureates, 1901-Present</p></td>
+<td class="text-left"><p>Which country has won the most prizes in each category?</p></td>
+<td class="text-right"><p>3192</p></td>
+<td class="text-right"><p>67763</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="meta">
+<h2>.meta<a class="headerlink" href="#meta" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">.meta</span></code> is your access to metadata about datasets.</p>
+<p>It works the same way things work with the zips of datasets: It will:</p>
+<ul class="simple">
+<li><p>list: will list locally store dataset meta information (in location specified by <code class="docutils literal notranslate"><span class="pre">s.meta_dir</span></code>)</p></li>
+<li><p>get: when a value (metadata dict) is requested, (1) the key is searched locally first, and if not found, (2) will request it remotely (through the kaggle api), and (3) the value will be cached (stored) locally</p></li>
+</ul>
+</section>
+<section id="cached-search-info">
+<h2>Cached search info<a class="headerlink" href="#cached-search-info" title="Link to this heading">#</a></h2>
+<p>Wait, it’s not all: <code class="docutils literal notranslate"><span class="pre">KaggleDatasets</span></code> will (by default) also cache these results locally in individual json files.</p>
+<p>Where? Ask <code class="docutils literal notranslate"><span class="pre">meta_dir</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">s</span><span class="o">.</span><span class="n">meta_dir</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">'/D/Dropbox/_odata/kaggle/meta'
+</span></pre></div>
+</div>
+<p>You can access these files with your favorite dict-like interface, through the <code class="docutils literal notranslate"><span class="pre">.meta</span></code> attribute</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">meta</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">358
+</span></pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">meta</span><span class="p">)[:</span><span class="mi">7</span><span class="p">]</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">['emmabel/word-occurrences-in-mr-robot',
+</span><span data-line="2"> 'bitsnpieces/covid19-country-data',
+</span><span data-line="3"> 'johnwdata/coronavirus-covid19-cases-by-us-state',
+</span><span data-line="4"> 'johnwdata/coronavirus-covid19-cases-by-us-county',
+</span><span data-line="5"> 'andradaolteanu/bing-nrc-afinn-lexicons',
+</span><span data-line="6"> 'rahulloha/covid19',
+</span><span data-line="7"> 'nltkdata/word2vec-sample']
+</span></pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">pprint</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">"emmabel/word-occurrences-in-mr-robot"</span><span class="p">])</span>
+</span></pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span><span data-line="1">{'creatorName': 'Emma',
+</span><span data-line="2"> 'creatorUrl': 'emmabel',
+</span><span data-line="3"> 'currentVersionNumber': 1,
+</span><span data-line="4"> 'description': None,
+</span><span data-line="5"> 'downloadCount': 116,
+</span><span data-line="6"> 'files': [],
+</span><span data-line="7"> 'id': 4288,
+</span><span data-line="8"> 'isFeatured': False,
+</span><span data-line="9"> 'isPrivate': False,
+</span><span data-line="10"> 'isReviewed': False,
+</span><span data-line="11"> 'kernelCount': 1,
+</span><span data-line="12"> 'lastUpdated': '2017-11-09T18:30:15.733Z',
+</span><span data-line="13"> 'licenseName': 'CC0: Public Domain',
+</span><span data-line="14"> 'ownerName': 'Emma',
+</span><span data-line="15"> 'ownerRef': 'emmabel',
+</span><span data-line="16"> 'ref': 'emmabel/word-occurrences-in-mr-robot',
+</span><span data-line="17"> 'subtitle': "Find out F-Society's favorite lingo",
+</span><span data-line="18"> 'tags': [{'competitionCount': 0,
+</span><span data-line="19">           'datasetCount': 7525,
+</span><span data-line="20">           'description': 'Activities that holds the attention and interest of '
+</span><span data-line="21">                          'an audience, or gives pleasure and delight. It can '
+</span><span data-line="22">                          'be an idea or a task, but is more likely to be one '
+</span><span data-line="23">                          'of the activities or events that have developed '
+</span><span data-line="24">                          'over thousands of years specifically for the '
+</span><span data-line="25">                          "purpose of keeping an audience's attention.",
+</span><span data-line="26">           'fullPath': 'topic &gt; arts and entertainment',
+</span><span data-line="27">           'isAutomatic': False,
+</span><span data-line="28">           'name': 'arts and entertainment',
+</span><span data-line="29">           'ref': 'arts and entertainment',
+</span><span data-line="30">           'scriptCount': 35,
+</span><span data-line="31">           'totalCount': 7560},
+</span><span data-line="32">          {'competitionCount': 0,
+</span><span data-line="33">           'datasetCount': 1227,
+</span><span data-line="34">           'description': 'One of the hallmarks of intelligence is the use of '
+</span><span data-line="35">                          'games and toys to occupy free time and develop '
+</span><span data-line="36">                          "intellectually. Often stored in Mom's basement.",
+</span><span data-line="37">           'fullPath': 'topic &gt; culture and humanities &gt; games',
+</span><span data-line="38">           'isAutomatic': False,
+</span><span data-line="39">           'name': 'games',
+</span><span data-line="40">           'ref': 'games',
+</span><span data-line="41">           'scriptCount': 40,
+</span><span data-line="42">           'totalCount': 1267}],
+</span><span data-line="43"> 'title': 'Word Occurrences in Mr. Robot',
+</span><span data-line="44"> 'topicCount': 0,
+</span><span data-line="45"> 'totalBytes': 119466,
+</span><span data-line="46"> 'url': 'https://www.kaggle.com/emmabel/word-occurrences-in-mr-robot',
+</span><span data-line="47"> 'usabilityRating': 0.7058824,
+</span><span data-line="48"> 'versions': [],
+</span><span data-line="49"> 'viewCount': 1028,
+</span><span data-line="50"> 'voteCount': 5}
+</span></pre></div>
+</div>
+<p>So if you want to search locally for information (again, information about your searches, not your data zips!), you can get them in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</span><span data-line="3"><span class="go">(358, 36)</span>
+</span></pre></div>
+</div>
+<p>Markdown for the 10 first rows…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">t</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="2"><span class="k">del</span> <span class="n">t</span><span class="p">[</span><span class="s2">"tags"</span><span class="p">]</span>
+</span><span data-line="3"><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">())</span>
+</span></pre></div>
+</div>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p></p></th>
+<th class="head text-right"><p>id</p></th>
+<th class="head text-left"><p>ref</p></th>
+<th class="head text-left"><p>subtitle</p></th>
+<th class="head text-left"><p>creatorName</p></th>
+<th class="head text-left"><p>creatorUrl</p></th>
+<th class="head text-right"><p>totalBytes</p></th>
+<th class="head text-left"><p>url</p></th>
+<th class="head text-left"><p>lastUpdated</p></th>
+<th class="head text-right"><p>downloadCount</p></th>
+<th class="head text-left"><p>isPrivate</p></th>
+<th class="head text-left"><p>isReviewed</p></th>
+<th class="head text-left"><p>isFeatured</p></th>
+<th class="head text-left"><p>licenseName</p></th>
+<th class="head text-left"><p>ownerName</p></th>
+<th class="head text-left"><p>ownerRef</p></th>
+<th class="head text-right"><p>kernelCount</p></th>
+<th class="head text-left"><p>title</p></th>
+<th class="head text-right"><p>topicCount</p></th>
+<th class="head text-right"><p>viewCount</p></th>
+<th class="head text-right"><p>voteCount</p></th>
+<th class="head text-right"><p>currentVersionNumber</p></th>
+<th class="head text-left"><p>files</p></th>
+<th class="head text-left"><p>versions</p></th>
+<th class="head text-right"><p>usabilityRating</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>0</p></td>
+<td class="text-right"><p>4288</p></td>
+<td class="text-left"><p>emmabel/word-occurrences-in-mr-robot</p></td>
+<td class="text-left"><p>Find out F-Society’s favorite lingo</p></td>
+<td class="text-left"><p>Emma</p></td>
+<td class="text-left"><p>emmabel</p></td>
+<td class="text-right"><p>119466</p></td>
+<td class="text-left"><p>https://www.kaggle.com/emmabel/word-occurrences-in-mr-robot</p></td>
+<td class="text-left"><p>2017-11-09T18:30:15.733Z</p></td>
+<td class="text-right"><p>116</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>CC0: Public Domain</p></td>
+<td class="text-left"><p>Emma</p></td>
+<td class="text-left"><p>emmabel</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Word Occurrences in Mr. Robot</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>1028</p></td>
+<td class="text-right"><p>5</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.705882</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>576036</p></td>
+<td class="text-left"><p>bitsnpieces/covid19-country-data</p></td>
+<td class="text-left"><p>Country level metadata that includes temperature, COVID-19 and H1N1 cases, etc.</p></td>
+<td class="text-left"><p>Patrick</p></td>
+<td class="text-left"><p>bitsnpieces</p></td>
+<td class="text-right"><p>190821</p></td>
+<td class="text-left"><p>https://www.kaggle.com/bitsnpieces/covid19-country-data</p></td>
+<td class="text-left"><p>2020-05-03T23:51:55.5Z</p></td>
+<td class="text-right"><p>939</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Database: Open Database, Contents: Database Contents</p></td>
+<td class="text-left"><p>Patrick</p></td>
+<td class="text-left"><p>bitsnpieces</p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-left"><p>COVID-19 Country Data</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>5419</p></td>
+<td class="text-right"><p>26</p></td>
+<td class="text-right"><p>30</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.882353</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p>575937</p></td>
+<td class="text-left"><p>johnwdata/coronavirus-covid19-cases-by-us-state</p></td>
+<td class="text-left"><p>NYTimes Coronavirus Dataset</p></td>
+<td class="text-left"><p>John Wackerow</p></td>
+<td class="text-left"><p>johnwdata</p></td>
+<td class="text-right"><p>82582</p></td>
+<td class="text-left"><p>https://www.kaggle.com/johnwdata/coronavirus-covid19-cases-by-us-state</p></td>
+<td class="text-left"><p>2020-09-23T12:43:05.76Z</p></td>
+<td class="text-right"><p>59</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Other (specified in description)</p></td>
+<td class="text-left"><p>John Wackerow</p></td>
+<td class="text-left"><p>johnwdata</p></td>
+<td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Coronavirus COVID-19 Cases By US State</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>1276</p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-right"><p>83</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p>575883</p></td>
+<td class="text-left"><p>johnwdata/coronavirus-covid19-cases-by-us-county</p></td>
+<td class="text-left"><p>NYTimes Coronavirus Dataset</p></td>
+<td class="text-left"><p>John Wackerow</p></td>
+<td class="text-left"><p>johnwdata</p></td>
+<td class="text-right"><p>3.50819e+06</p></td>
+<td class="text-left"><p>https://www.kaggle.com/johnwdata/coronavirus-covid19-cases-by-us-county</p></td>
+<td class="text-left"><p>2020-07-23T18:47:16.543Z</p></td>
+<td class="text-right"><p>37</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Unknown</p></td>
+<td class="text-left"><p>John Wackerow</p></td>
+<td class="text-left"><p>johnwdata</p></td>
+<td class="text-right"><p>2</p></td>
+<td class="text-left"><p>Coronavirus COVID-19 Cases By US County</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>610</p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-right"><p>6</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.764706</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>4</p></td>
+<td class="text-right"><p>507452</p></td>
+<td class="text-left"><p>andradaolteanu/bing-nrc-afinn-lexicons</p></td>
+<td class="text-left"><p>the lexicons are in CSV format</p></td>
+<td class="text-left"><p>Andrada Olteanu</p></td>
+<td class="text-left"><p>andradaolteanu</p></td>
+<td class="text-right"><p>83965</p></td>
+<td class="text-left"><p>https://www.kaggle.com/andradaolteanu/bing-nrc-afinn-lexicons</p></td>
+<td class="text-left"><p>2020-02-09T18:39:13.343Z</p></td>
+<td class="text-right"><p>135</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Unknown</p></td>
+<td class="text-left"><p>Andrada Olteanu</p></td>
+<td class="text-left"><p>andradaolteanu</p></td>
+<td class="text-right"><p>11</p></td>
+<td class="text-left"><p>Bing, NRC, Afinn Lexicons</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>629</p></td>
+<td class="text-right"><p>12</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.882353</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>5</p></td>
+<td class="text-right"><p>599303</p></td>
+<td class="text-left"><p>rahulloha/covid19</p></td>
+<td class="text-left"><p>Covid-19 dataset (updates daily at 10:00 pm pst)</p></td>
+<td class="text-left"><p>Rahul Loha</p></td>
+<td class="text-left"><p>rahulloha</p></td>
+<td class="text-right"><p>1.60678e+07</p></td>
+<td class="text-left"><p>https://www.kaggle.com/rahulloha/covid19</p></td>
+<td class="text-left"><p>2020-04-12T22:50:26.857Z</p></td>
+<td class="text-right"><p>65</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Unknown</p></td>
+<td class="text-left"><p>Rahul Loha</p></td>
+<td class="text-left"><p>rahulloha</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>Global Coronavirus (COVID-19) Data (Johns Hopkins)</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>615</p></td>
+<td class="text-right"><p>6</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.647059</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>6</p></td>
+<td class="text-right"><p>2045</p></td>
+<td class="text-left"><p>nltkdata/word2vec-sample</p></td>
+<td class="text-left"><p>Sample Word2Vec Model</p></td>
+<td class="text-left"><p>Liling Tan</p></td>
+<td class="text-left"><p>alvations</p></td>
+<td class="text-right"><p>1.01479e+08</p></td>
+<td class="text-left"><p>https://www.kaggle.com/nltkdata/word2vec-sample</p></td>
+<td class="text-left"><p>2017-08-20T03:14:39.623Z</p></td>
+<td class="text-right"><p>772</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>True</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Other (specified in description)</p></td>
+<td class="text-left"><p>NLTK Data</p></td>
+<td class="text-left"><p>nltkdata</p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Word2Vec Sample</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>8073</p></td>
+<td class="text-right"><p>15</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.75</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>7</p></td>
+<td class="text-right"><p>585107</p></td>
+<td class="text-left"><p>nxpnsv/country-health-indicators</p></td>
+<td class="text-left"><p>Health indicator relevant to covid19 death and infection risk</p></td>
+<td class="text-left"><p>nxpnsv</p></td>
+<td class="text-left"><p>nxpnsv</p></td>
+<td class="text-right"><p>40146</p></td>
+<td class="text-left"><p>https://www.kaggle.com/nxpnsv/country-health-indicators</p></td>
+<td class="text-left"><p>2020-04-07T11:12:41.91Z</p></td>
+<td class="text-right"><p>185</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>CC BY-NC-SA 4.0</p></td>
+<td class="text-left"><p>nxpnsv</p></td>
+<td class="text-left"><p>nxpnsv</p></td>
+<td class="text-right"><p>6</p></td>
+<td class="text-left"><p>country health indicators</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>2126</p></td>
+<td class="text-right"><p>11</p></td>
+<td class="text-right"><p>6</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>8</p></td>
+<td class="text-right"><p>585591</p></td>
+<td class="text-left"><p>joelhanson/coronavirus-covid19-data-in-the-united-states</p></td>
+<td class="text-left"><p>The New York Times data on coronavirus cases and deaths in the U.S</p></td>
+<td class="text-left"><p>Joel Hanson</p></td>
+<td class="text-left"><p>joelhanson</p></td>
+<td class="text-right"><p>5.83676e+06</p></td>
+<td class="text-left"><p>https://www.kaggle.com/joelhanson/coronavirus-covid19-data-in-the-united-states</p></td>
+<td class="text-left"><p>2020-09-21T15:51:45.933Z</p></td>
+<td class="text-right"><p>164</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</p></td>
+<td class="text-left"><p>Joel Hanson</p></td>
+<td class="text-left"><p>joelhanson</p></td>
+<td class="text-right"><p>3</p></td>
+<td class="text-left"><p>Coronavirus (Covid-19) Data of United States (USA)</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>1724</p></td>
+<td class="text-right"><p>5</p></td>
+<td class="text-right"><p>29</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.882353</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>9</p></td>
+<td class="text-right"><p>8352</p></td>
+<td class="text-left"><p>vsmolyakov/fasttext</p></td>
+<td class="text-left"><p>embeddings with sub-word information</p></td>
+<td class="text-left"><p>vsmolyakov</p></td>
+<td class="text-left"><p>vsmolyakov</p></td>
+<td class="text-right"><p>1.1168e+08</p></td>
+<td class="text-left"><p>https://www.kaggle.com/vsmolyakov/fasttext</p></td>
+<td class="text-left"><p>2017-12-31T17:32:30.94Z</p></td>
+<td class="text-right"><p>947</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>False</p></td>
+<td class="text-left"><p>CC0: Public Domain</p></td>
+<td class="text-left"><p>vsmolyakov</p></td>
+<td class="text-left"><p>vsmolyakov</p></td>
+<td class="text-right"><p>14</p></td>
+<td class="text-left"><p>FastText</p></td>
+<td class="text-right"><p>0</p></td>
+<td class="text-right"><p>3809</p></td>
+<td class="text-right"><p>5</p></td>
+<td class="text-right"><p>1</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-left"><p>[]</p></td>
+<td class="text-right"><p>0.875</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Note: If you don’t want all your search results to be cached you can just specify it.</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">s</span> <span class="o">=</span> <span class="n">KaggleDatasets</span><span class="p">(</span><span class="n">rootdir</span><span class="p">,</span> <span class="n">cache_metas_on_search</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># make an instance</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="the-boring-stuff">
+<h1>The boring stuff<a class="headerlink" href="#the-boring-stuff" title="Link to this heading">#</a></h1>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<p>pip install haggle</p>
+<p><strong>You’ll need a kaggle api token to use this</strong></p>
+<p>If you do, you probably can just start using.</p>
+<p>If you don’t got get one! Go see <a class="reference external" href="https://github.com/Kaggle/kaggle-api">this</a> for detailed instructions, it essentially says:</p>
+</section>
+<section id="api-credentials">
+<h2>API credentials<a class="headerlink" href="#api-credentials" title="Link to this heading">#</a></h2>
+<p>To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com.
+Then go to the ‘Account’ tab of your user profile (<code class="docutils literal notranslate"><span class="pre">https://www.kaggle.com/&lt;username&gt;/account</span></code>) and select ‘Create API Token’.
+This will trigger the download of <code class="docutils literal notranslate"><span class="pre">kaggle.json</span></code>, a file containing your API credentials.
+Place this file in the location <code class="docutils literal notranslate"><span class="pre">~/.kaggle/kaggle.json</span></code> (on Windows in the location <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;Windows-username&gt;\.kaggle\kaggle.json</span></code> - you can check the exact location, sans drive, with <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">%HOMEPATH%</span></code>).
+You can define a shell environment variable <code class="docutils literal notranslate"><span class="pre">KAGGLE_CONFIG_DIR</span></code> to change this location to <code class="docutils literal notranslate"><span class="pre">$KAGGLE_CONFIG_DIR/kaggle.json</span></code> (on Windows it will be <code class="docutils literal notranslate"><span class="pre">%KAGGLE_CONFIG_DIR%\kaggle.json</span></code>).</p>
+<p>For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:</p>
+<p><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">600</span> <span class="pre">~/.kaggle/kaggle.json</span></code></p>
+<p>You can also choose to export your Kaggle username and token to the environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nb">export</span><span class="w"> </span><span class="nv">KAGGLE_USERNAME</span><span class="o">=</span>datadinosaur
+</span><span data-line="2"><span class="nb">export</span><span class="w"> </span><span class="nv">KAGGLE_KEY</span><span class="o">=</span>xxxxxxxxxxxxxx
+</span></pre></div>
+</div>
+<p>In addition, you can export any other configuration value that normally would be in
+the <code class="docutils literal notranslate"><span class="pre">$HOME/.kaggle/kaggle.json</span></code> in the format ‘KAGGLE_<VARIABLE>’ (note uppercase).<br />
+For example, if the file had the variable “proxy” you would export <code class="docutils literal notranslate"><span class="pre">KAGGLE_PROXY</span></code>
+and it would be discovered by the client.</p>
+</section>
+</section>
+<section id="f-a-q">
+<span id="faq"></span><h1>F.A.Q.<a class="headerlink" href="#f-a-q" title="Link to this heading">#</a></h1>
+<section id="what-if-i-don-t-want-a-zip-file-anymore">
+<span id="what-if-i-dont-want-a-zip-file-anymore"></span><h2>What if I don’t want a zip file anymore?<a class="headerlink" href="#what-if-i-don-t-want-a-zip-file-anymore" title="Link to this heading">#</a></h2>
+<p>Just delete it, like you do with any file you don’t want anymore. You know the one.</p>
+<p>Or… you can be cool and do <code class="docutils literal notranslate"><span class="pre">del</span> <span class="pre">s['owner/dataset']</span></code> for that key (note a key doesn’t include the rootdir or the <code class="docutils literal notranslate"><span class="pre">.zip</span></code> extension), just like you would with a… <code class="docutils literal notranslate"><span class="pre">dict</span></code>, once again.</p>
+</section>
+<section id="do-you-have-any-jupyter-notebooks-demoing-this">
+<h2>Do you have any jupyter notebooks demoing this.<a class="headerlink" href="#do-you-have-any-jupyter-notebooks-demoing-this" title="Link to this heading">#</a></h2>
+<p>Sure, you can find some <a class="reference external" href="https://github.com/otosense/haggle/tree/master/docs">here on github</a>.</p>
+</section>
+<section id="a-little-snippet-of-code-to-test">
+<h2>A little snippet of code to test?<a class="headerlink" href="#a-little-snippet-of-code-to-test" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">haggle</span><span class="w"> </span><span class="kn">import</span> <span class="n">KaggleDatasets</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">s</span> <span class="o">=</span> <span class="n">KaggleDatasets</span><span class="p">()</span>  <span class="c1"># make an instance</span>
+</span><span data-line="4"><span class="c1"># results = s.search('coronavirus')</span>
+</span><span data-line="5"><span class="c1"># ref = next(iter(results))  # see that results iteration works</span>
+</span><span data-line="6"><span class="n">ref</span> <span class="o">=</span> <span class="s2">"sanchman/coronavirus-present-data"</span>
+</span><span data-line="7"><span class="k">if</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>  <span class="c1"># delete if exists</span>
+</span><span data-line="8">    <span class="k">del</span> <span class="n">s</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span>
+</span><span data-line="9"><span class="k">assert</span> <span class="n">ref</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># see, not there</span>
+</span><span data-line="10"><span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span>  <span class="c1"># redownload</span>
+</span><span data-line="11"><span class="k">assert</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># see, not there</span>
+</span><span data-line="12"><span class="k">assert</span> <span class="s2">"PresentData.xlsx"</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># and it has stuff in v</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span data-line="15"><span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">"PresentData.xlsx"</span><span class="p">]))</span>
+</span><span data-line="18"><span class="k">assert</span> <span class="s2">"Total Confirmed"</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</span><span data-line="19"><span class="k">assert</span> <span class="s2">"Country"</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</span><span data-line="20"><span class="k">assert</span> <span class="s2">"France"</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">"Country"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</span></pre></div>
+</div>
+<p class="epythet-aggregates">This documentation as a single file: <a href="haggle.md">haggle.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-22 20:41 UTC from <a href="https://github.com/thorwhalen/haggle/commit/505afdd195808b1ba8c276e4a2f74655decd4533">505afdd</a> (master) · haggle 0.1.20 · <a href="about-this-build.html">about this build</a></p>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-next">
+    <a href="api/index.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">API Reference</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/haggle" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=17aaaefc"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="haggle" href="module_docs/haggle.html" /> 
-</head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="#" class="icon icon-home">
-            haggle
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle.html">haggle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle/dacc.html">haggle.dacc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle/small_test.html">haggle.small_test</a></li>
-</ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">haggle</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to haggle’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-haggle-s-documentation">
-<h1>Welcome to haggle’s documentation!<a class="headerlink" href="#welcome-to-haggle-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle.html">haggle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle/dacc.html">haggle.dacc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/haggle/small_test.html">haggle.small_test</a></li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.1.19</p>
-<p>Last change: Jul 25, 2026</p>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/haggle.html" class="btn btn-neutral float-right" title="haggle" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+      <script src="_static/copybutton.js?v=fd10adb8"></script>
+      <script src="_static/shibuya.js?v=50760d75"></script></body>
 </html>

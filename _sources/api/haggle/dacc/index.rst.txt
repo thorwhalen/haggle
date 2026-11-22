@@ -1,0 +1,154 @@
+haggle.dacc
+===========
+
+.. py:module:: haggle.dacc
+
+.. autoapi-nested-parse::
+
+   Data access
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   haggle.dacc.KaggleDatasetInfoReader
+   haggle.dacc.KaggleBytesDatasetReader
+   haggle.dacc.KaggleDatasetReader
+   haggle.dacc.KaggleMetadataReader
+   haggle.dacc.RelZipFiles
+   haggle.dacc.LocalKaggleZips
+   haggle.dacc.LocalKaggleMeta
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   haggle.dacc.owner_and_dataset_slugs
+   haggle.dacc.get_kaggle_dataset
+
+
+Module Contents
+---------------
+
+.. py:class:: KaggleDatasetInfoReader(*, group=None, sort_by=None, filetype=None, license=None, tagids=None, search=None, user=None, start_page=1, max_n_pages=DFLT_MAX_PAGES, warn_if_there_are_more_items=False, **kwargs)
+
+   Bases: :py:obj:`dol.KvReader`
+
+
+   A KvReader to access Kaggle resources.
+
+   Prerequisites:
+       pip install kaggle
+       Having a kaggle api token where the kaggle library will be looking for it
+           (see https://github.com/Kaggle/kaggle-api#api-credentials)
+
+   You seed a Reader by specifying any combination of things like search terms, groups,
+   filetypes etc.
+   See `kaggle.api` for more information.
+   Additional (and specific to py2store reader) arguments are
+       start_page (default 0, but useful for paging),
+       max_n_pages (to not hit the API too hard if your query is large), and
+       warn_if_there_are_more_items if you want to be warned if there's more items than
+       what you see
+
+   >>> ka = KaggleDatasetInfoReader(search='coronavirus covid')  # doctest: +SKIP
+   >>> ka = KaggleDatasetInfoReader(  # doctest: +SKIP
+   ...         user='sudalairajkumar', start_page=1, max_n_pages=2)
+
+
+
+.. py:function:: owner_and_dataset_slugs(ref)
+
+   try to get the owner and dataset slugs from a ref
+
+
+.. py:class:: KaggleBytesDatasetReader(*, group=None, sort_by=None, filetype=None, license=None, tagids=None, search=None, user=None, start_page=1, max_n_pages=DFLT_MAX_PAGES, warn_if_there_are_more_items=False, **kwargs)
+
+   Bases: :py:obj:`KaggleDatasetInfoReader`
+
+
+   Downloads the dataset as a zip file to a temporary location and then reads its bytes.
+   This is necessary because the `dataset_download_files` method in the current
+   Kaggle API handles saving files directly to disk, rather than returning bytes.
+
+
+.. py:class:: KaggleDatasetReader(*, group=None, sort_by=None, filetype=None, license=None, tagids=None, search=None, user=None, start_page=1, max_n_pages=DFLT_MAX_PAGES, warn_if_there_are_more_items=False, **kwargs)
+
+   Bases: :py:obj:`KaggleBytesDatasetReader`
+
+
+   Downloads the dataset as a zip file to a temporary location and then reads its bytes.
+   This is necessary because the `dataset_download_files` method in the current
+   Kaggle API handles saving files directly to disk, rather than returning bytes.
+
+
+.. py:class:: KaggleMetadataReader(*, group=None, sort_by=None, filetype=None, license=None, tagids=None, search=None, user=None, start_page=1, max_n_pages=DFLT_MAX_PAGES, warn_if_there_are_more_items=False, **kwargs)
+
+   Bases: :py:obj:`KaggleDatasetInfoReader`
+
+
+   A KvReader to access Kaggle resources.
+
+   Prerequisites:
+       pip install kaggle
+       Having a kaggle api token where the kaggle library will be looking for it
+           (see https://github.com/Kaggle/kaggle-api#api-credentials)
+
+   You seed a Reader by specifying any combination of things like search terms, groups,
+   filetypes etc.
+   See `kaggle.api` for more information.
+   Additional (and specific to py2store reader) arguments are
+       start_page (default 0, but useful for paging),
+       max_n_pages (to not hit the API too hard if your query is large), and
+       warn_if_there_are_more_items if you want to be warned if there's more items than
+       what you see
+
+   >>> ka = KaggleDatasetInfoReader(search='coronavirus covid')  # doctest: +SKIP
+   >>> ka = KaggleDatasetInfoReader(  # doctest: +SKIP
+   ...         user='sudalairajkumar', start_page=1, max_n_pages=2)
+
+
+
+.. py:class:: RelZipFiles(rootdir, subpath='{zip_name}.zip', pattern_for_field=None, max_levels=0, zip_reader=ZipReader, **zip_reader_kwargs)
+
+   Bases: :py:obj:`dol.zipfiledol.ZipFilesReaderAndBytesWriter`, :py:obj:`dol.filesys.LocalFileDeleteMixin`
+
+
+   Like ZipFilesReader, but the ability to write bytes (assumed to be valid bytes of
+   the zip format) to a key
+
+
+.. py:class:: LocalKaggleZips(rootdir)
+
+   Bases: :py:obj:`py2store.stores.local_store.AutoMkDirsOnSetitemMixin`, :py:obj:`RelZipFiles`
+
+
+   A mixin that will automatically create directories on setitem, when missing.
+
+
+.. py:class:: LocalKaggleMeta(rootdir)
+
+   Bases: :py:obj:`py2store.stores.local_store.AutoMkDirsOnSetitemMixin`, :py:obj:`py2store.stores.local_store.LocalJsonStore`
+
+
+   A mixin that will automatically create directories on setitem, when missing.
+
+
+.. py:function:: get_kaggle_dataset(dataset, rootdir=DFLT_ROOTDIR)
+
+   Get a Kaggle dataset.
+
+   :param dataset: Either a Kaggle dataset ref ("owner/dataset") or an http(s) Kaggle URL
+                   of the form "https://www.kaggle.com/datasets/<owner>/<dataset>".
+
+   .. rubric:: Examples
+
+   >>> get_kaggle_dataset('https://www.kaggle.com/datasets/rtatman/emojinet')  # doctest: +SKIP
+   ...
+
+

@@ -1,0 +1,11 @@
+haggle.small_test
+=================
+
+.. py:module:: haggle.small_test
+
+.. autoapi-nested-parse::
+
+   Some tests
+
+
+

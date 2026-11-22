@@ -1,0 +1,21 @@
+haggle
+======
+
+.. py:module:: haggle
+
+.. autoapi-nested-parse::
+
+   Access to kaggle datasets the simplest way possible.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/haggle/dacc/index
+   /api/haggle/small_test/index
+
+

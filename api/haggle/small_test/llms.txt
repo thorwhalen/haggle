@@ -1,0 +1,12 @@
+# haggle
+
+> A facade to Kaggle data
+
+
+## Pages in this subsection
+
+- [haggle.small_test](index.html.md): Main documentation page
+
+## Optional
+
+- [Top-level llms.txt](../../../llms.txt): Complete documentation index.

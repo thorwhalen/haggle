@@ -1,0 +1,21 @@
+# haggle
+
+> A facade to Kaggle data
+
+
+## Pages
+
+- [Haggle](index.html.md): - Simple example
+- [API Reference](api/index.html.md): This page contains auto-generated API reference documentation &lt;sup&gt;1&lt;/sup&gt;.
+- [haggle](api/haggle/index.html.md): Access to kaggle datasets the simplest way possible.
+- [haggle.dacc](api/haggle/dacc/index.html.md): Data access
+- [haggle.small_test](api/haggle/small_test/index.html.md): Main documentation page
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 20:41 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [haggle.md](haggle.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

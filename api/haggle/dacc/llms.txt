@@ -1,0 +1,12 @@
+# haggle
+
+> A facade to Kaggle data
+
+
+## Pages in this subsection
+
+- [haggle.dacc](index.html.md): Data access
+
+## Optional
+
+- [Top-level llms.txt](../../../llms.txt): Complete documentation index.
