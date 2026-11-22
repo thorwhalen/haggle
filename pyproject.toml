@@ -26,6 +26,7 @@ classifiers = [
 ]
 dependencies = [
     "kaggle",
+    "six",  # kaggle imports it without declaring it (fails on a clean 3.12 env)
     "dol",
     "py2store",
 ]
