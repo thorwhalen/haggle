@@ -18,14 +18,20 @@
 
 A simple facade to [Kaggle](https://www.kaggle.com/) data.
 
-Essentially, instantiate a `KaggleDatasets` object, and from it search datasets, see their metadata, download the data 
-(automatically caching it in well organized folders), and all from an interface that looks like 
-a humble dict with `owner/dataset` keys, and that's the coolest bit.
+Essentially, instantiate a `KaggleDatasets` object, and from it search datasets, see their metadata, download the data (automatically caching it in well organized folders), and all from an interface that looks like a humble dict with `owner/dataset` keys, and that's the coolest bit.
 
 **Haggle:** /ˈhaɡəl/
-- an instance of intense argument (as in bargaining) 
-- wrangle (over a price, terms of an agreement, etc.) 
+- an instance of intense argument (as in bargaining)
+- wrangle (over a price, terms of an agreement, etc.)
 - rhymes with Kaggle and is not taken on pypi (well, now it is)
+
+## Install
+
+```bash
+pip install haggle
+```
+
+You need a Kaggle API token to use it; see [API credentials](#api-credentials) below.
 
 # Simple example
 
@@ -98,9 +104,9 @@ type(v)
 
 Okay, let's slow down a moment. What happened? What's this `ZipReader` thingy?
 
-Well, what happened is that this downloaded the zip file of the data for you and saved it in `ROOTDIR/rtatman/english-word-frequency.zip`. Don't believe me? Go have a look. 
+Well, what happened is that this downloaded the zip file of the data for you and saved it in `ROOTDIR/rtatman/english-word-frequency.zip`. Don't believe me? Go have a look.
 
-But then it also returns this object called `ZipReader` that points to it. 
+But then it also returns this object called `ZipReader` that points to it.
 
 If you don't like it, you don't have to use it. But I think you should like it.
 
@@ -122,7 +128,7 @@ list(v)
 
 Retrieve the data for any given file of the zip without ever having to unzip it!
 
-Oh, and still pretending to be a dict. 
+Oh, and still pretending to be a dict.
 
 
 ```python
@@ -133,7 +139,7 @@ print(f"b is a {type(b)} and has {len(b)} bytes")
     b is a <class 'bytes'> and has 4956252 bytes
 
 
-Now the data is given in bytes by default, since that's the basis of everything. 
+Now the data is given in bytes by default, since that's the basis of everything.
 
 From there you can go everywhere. Here for example, say we'd like to go to `pandas.DataFrame`...
 
@@ -189,7 +195,7 @@ list(s)
 
 ## By the way...
 
-So a `KaggleDatasets` is a store with a dict-like interface. 
+So a `KaggleDatasets` is a store with a dict-like interface.
 
 Listing happens locally. Remote listing is done through `.search(...)`.
 
@@ -214,7 +220,7 @@ s.zips_dir
 
 Let's have a closer look at those search results. All we did is a `len(results)` and a `list(results)`. What else can you do with that object?
 
-Well, as is so happens, you can do whatever (read-only) operation you can do on a -- take a wild guess -- a dict. 
+Well, as is so happens, you can do whatever (read-only) operation you can do on a -- take a wild guess -- a dict.
 
 Namely, you can get a value for the keys we've listed
 
@@ -291,11 +297,12 @@ pprint(results["rtatman/english-word-frequency"])
      'voteCount': 105}
 
 
-You get description, size, tags, download count... Useful stuff to make your choice. 
+You get description, size, tags, download count... Useful stuff to make your choice.
 
 Personally, I like transform those results in a `DataFrame` that I can subsequently interrogate:
 
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 import pandas as pd
 
@@ -323,7 +330,7 @@ df = df.set_index("ref").sort_values("downloadCount", ascending=False)
 
 ## .meta
 
-`.meta` is your access to metadata about datasets. 
+`.meta` is your access to metadata about datasets.
 
 It works the same way things work with the zips of datasets: It will:
 - list: will list locally store dataset meta information (in location specified by `s.meta_dir`)
@@ -440,6 +447,7 @@ pprint(s.meta["emmabel/word-occurrences-in-mr-robot"])
 So if you want to search locally for information (again, information about your searches, not your data zips!), you can get them in a `DataFrame` like so:
 
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 >>> df = pd.DataFrame(s.meta.values())
 >>> df.shape
@@ -447,6 +455,7 @@ So if you want to search locally for information (again, information about your 
 ```
 
 Markdown for the 10 first rows...
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 t = df.head(10).dropna(axis=1)
 del t["tags"]
@@ -475,27 +484,11 @@ s = KaggleDatasets(rootdir, cache_metas_on_search=False)  # make an instance
 
 # The boring stuff
 
-## Install
-
-pip install haggle
-
-**You'll need a kaggle api token to use this**
-
-If you do, you probably can just start using. 
-
-If you don't got get one! Go see [this](https://github.com/Kaggle/kaggle-api) for detailed instructions, it essentially says:
-
-
-
 ## API credentials
 
-To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com. 
-Then go to the 'Account' tab of your user profile (`https://www.kaggle.com/<username>/account`) and select 'Create API Token'. 
-This will trigger the download of `kaggle.json`, a file containing your API credentials. 
-Place this file in the location `~/.kaggle/kaggle.json` (on Windows in the location `C:\Users\<Windows-username>\.kaggle\kaggle.json` - you can check the exact location, sans drive, with `echo %HOMEPATH%`). 
-You can define a shell environment variable `KAGGLE_CONFIG_DIR` to change this location to `$KAGGLE_CONFIG_DIR/kaggle.json` (on Windows it will be `%KAGGLE_CONFIG_DIR%\kaggle.json`).
+To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com. Then go to the 'Account' tab of your user profile (`https://www.kaggle.com/<username>/account`) and select 'Create API Token'. This will trigger the download of `kaggle.json`, a file containing your API credentials. Place this file in the location `~/.kaggle/kaggle.json` (on Windows in the location `C:\Users\<Windows-username>\.kaggle\kaggle.json` - you can check the exact location, sans drive, with `echo %HOMEPATH%`). You can define a shell environment variable `KAGGLE_CONFIG_DIR` to change this location to `$KAGGLE_CONFIG_DIR/kaggle.json` (on Windows it will be `%KAGGLE_CONFIG_DIR%\kaggle.json`).
 
-For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command: 
+For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:
 
 `chmod 600 ~/.kaggle/kaggle.json`
 
@@ -505,10 +498,7 @@ You can also choose to export your Kaggle username and token to the environment:
 export KAGGLE_USERNAME=datadinosaur
 export KAGGLE_KEY=xxxxxxxxxxxxxx
 ```
-In addition, you can export any other configuration value that normally would be in
-the `$HOME/.kaggle/kaggle.json` in the format 'KAGGLE_<VARIABLE>' (note uppercase).  
-For example, if the file had the variable "proxy" you would export `KAGGLE_PROXY`
-and it would be discovered by the client.
+In addition, you can export any other configuration value that normally would be in the `$HOME/.kaggle/kaggle.json` in the format 'KAGGLE_<VARIABLE>' (note uppercase). For example, if the file had the variable "proxy" you would export `KAGGLE_PROXY` and it would be discovered by the client.
 
 
 # F.A.Q.
@@ -525,6 +515,7 @@ Sure, you can find some [here on github](https://github.com/otosense/haggle/tree
 
 ## A little snippet of code to test?
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 from haggle import KaggleDatasets
 
