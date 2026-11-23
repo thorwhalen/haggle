@@ -10,7 +10,7 @@
 - [haggle](api/haggle/index.html.md): Access to kaggle datasets the simplest way possible.
 - [haggle.dacc](api/haggle/dacc/index.html.md): Data access
 - [haggle.small_test](api/haggle/small_test/index.html.md): Main documentation page
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 20:41 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-23 01:53 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

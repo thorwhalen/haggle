@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-22T20:41:55Z",
+  "built_at": "2026-11-23T01:53:33Z",
   "package": {
     "name": "haggle",
     "version": "0.1.20",
@@ -9,24 +9,24 @@
   },
   "git": {
     "available": true,
-    "commit": "505afdd195808b1ba8c276e4a2f74655decd4533",
-    "short_commit": "505afdd",
+    "commit": "7aea187f043d977b33c25483d3afbd1c7f1c4482",
+    "short_commit": "7aea187",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/haggle",
-    "commit_url": "https://github.com/thorwhalen/haggle/commit/505afdd195808b1ba8c276e4a2f74655decd4533",
+    "commit_url": "https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/haggle",
-    "sha": "505afdd195808b1ba8c276e4a2f74655decd4533",
+    "sha": "7aea187f043d977b33c25483d3afbd1c7f1c4482",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45067723647",
-    "run_url": "https://github.com/thorwhalen/haggle/actions/runs/45067723647",
+    "run_id": "45096939044",
+    "run_url": "https://github.com/thorwhalen/haggle/actions/runs/45096939044",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -60,14 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.20",
-    "relation": "same",
+    "latest": "0.1.21",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/haggle && cd haggle\ngit checkout 505afdd195808b1ba8c276e4a2f74655decd4533\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/haggle && cd haggle\ngit checkout 7aea187f043d977b33c25483d3afbd1c7f1c4482\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.1.20) is behind the latest release on PyPI (0.1.21): `pip install haggle` gives newer code than these docs describe."
+    ]
   }
 }
