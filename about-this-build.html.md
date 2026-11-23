@@ -2,18 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-11-23 01:53 UTC** from commit <a href="https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482"><code>7aea187</code></a> on branch <code>master</code>, for **haggle 0.1.20** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 06:54 UTC** from commit <a href="https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2"><code>5b35b1b</code></a> on branch <code>master</code>, for **haggle 0.1.21** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.20) is behind the latest release on PyPI (0.1.21): `pip install haggle` gives newer code than these docs describe.
+- The documented version (0.1.21) is behind the latest release on PyPI (0.1.22): `pip install haggle` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                          |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482"><code>7aea187f043d977b33c25483d3afbd1c7f1c4482</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2"><code>5b35b1b1533e93247d06689a91cedd22f0d8ebb2</code></a> |
 | Branch              | <code>master</code>                                                                                                                                      |
 | Tags at this commit | none                                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                    |
@@ -24,9 +24,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/haggle</code>                                                             |
-| Run          | <a href="https://github.com/thorwhalen/haggle/actions/runs/45096939044">45096939044</a>    |
+| Run          | <a href="https://github.com/thorwhalen/haggle/actions/runs/45127135586">45127135586</a>    |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>7aea187f043d977b33c25483d3afbd1c7f1c4482</code> (in the history of the built commit) |
+| Event commit | <code>5b35b1b1533e93247d06689a91cedd22f0d8ebb2</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -51,13 +51,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/haggle/0.1.21/">0.1.21</a>, newer than the documented version (0.1.20).
+Latest release: <a href="https://pypi.org/project/haggle/0.1.22/">0.1.22</a>, newer than the documented version (0.1.21).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/haggle && cd haggle
-git checkout 7aea187f043d977b33c25483d3afbd1c7f1c4482
+git checkout 5b35b1b1533e93247d06689a91cedd22f0d8ebb2
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

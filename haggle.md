@@ -1,4 +1,4 @@
-> built 2026-11-23 01:53 UTC from 7aea187 (master) · haggle 0.1.20. Details: build_info.json
+> built 2026-11-23 06:54 UTC from 5b35b1b (master) · haggle 0.1.21. Details: build_info.json
 
 # index.html.md
 
@@ -23,15 +23,21 @@
 
 A simple facade to [Kaggle](https://www.kaggle.com/) data.
 
-Essentially, instantiate a `KaggleDatasets` object, and from it search datasets, see their metadata, download the data
-(automatically caching it in well organized folders), and all from an interface that looks like
-a humble dict with `owner/dataset` keys, and that’s the coolest bit.
+Essentially, instantiate a `KaggleDatasets` object, and from it search datasets, see their metadata, download the data (automatically caching it in well organized folders), and all from an interface that looks like a humble dict with `owner/dataset` keys, and that’s the coolest bit.
 
 **Haggle:** /ˈhaɡəl/
 
 - an instance of intense argument (as in bargaining)
 - wrangle (over a price, terms of an agreement, etc.)
 - rhymes with Kaggle and is not taken on pypi (well, now it is)
+
+## Install
+
+```bash
+pip install haggle
+```
+
+You need a Kaggle API token to use it; see [API credentials]() below.
 
 # Simple example
 
@@ -273,6 +279,7 @@ You get description, size, tags, download count… Useful stuff to make your cho
 
 Personally, I like transform those results in a `DataFrame` that I can subsequently interrogate:
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 import pandas as pd
 
@@ -402,6 +409,7 @@ pprint(s.meta["emmabel/word-occurrences-in-mr-robot"])
 
 So if you want to search locally for information (again, information about your searches, not your data zips!), you can get them in a `DataFrame` like so:
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 >>> df = pd.DataFrame(s.meta.values())
 >>> df.shape
@@ -410,6 +418,7 @@ So if you want to search locally for information (again, information about your 
 
 Markdown for the 10 first rows…
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 t = df.head(10).dropna(axis=1)
 del t["tags"]
@@ -437,23 +446,9 @@ s = KaggleDatasets(rootdir, cache_metas_on_search=False)  # make an instance
 
 # The boring stuff
 
-## Install
-
-pip install haggle
-
-**You’ll need a kaggle api token to use this**
-
-If you do, you probably can just start using.
-
-If you don’t got get one! Go see [this](https://github.com/Kaggle/kaggle-api) for detailed instructions, it essentially says:
-
 ## API credentials
 
-To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com.
-Then go to the ‘Account’ tab of your user profile (`https://www.kaggle.com/<username>/account`) and select ‘Create API Token’.
-This will trigger the download of `kaggle.json`, a file containing your API credentials.
-Place this file in the location `~/.kaggle/kaggle.json` (on Windows in the location `C:\Users\<Windows-username>\.kaggle\kaggle.json` - you can check the exact location, sans drive, with `echo %HOMEPATH%`).
-You can define a shell environment variable `KAGGLE_CONFIG_DIR` to change this location to `$KAGGLE_CONFIG_DIR/kaggle.json` (on Windows it will be `%KAGGLE_CONFIG_DIR%\kaggle.json`).
+To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com. Then go to the ‘Account’ tab of your user profile (`https://www.kaggle.com/<username>/account`) and select ‘Create API Token’. This will trigger the download of `kaggle.json`, a file containing your API credentials. Place this file in the location `~/.kaggle/kaggle.json` (on Windows in the location `C:\Users\<Windows-username>\.kaggle\kaggle.json` - you can check the exact location, sans drive, with `echo %HOMEPATH%`). You can define a shell environment variable `KAGGLE_CONFIG_DIR` to change this location to `$KAGGLE_CONFIG_DIR/kaggle.json` (on Windows it will be `%KAGGLE_CONFIG_DIR%\kaggle.json`).
 
 For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:
 
@@ -466,11 +461,7 @@ export KAGGLE_USERNAME=datadinosaur
 export KAGGLE_KEY=xxxxxxxxxxxxxx
 ```
 
-In addition, you can export any other configuration value that normally would be in
-the `$HOME/.kaggle/kaggle.json` in the format ‘KAGGLE_<VARIABLE>’ (note uppercase).<br />
-\\\\
-For example, if the file had the variable “proxy” you would export `KAGGLE_PROXY`
-and it would be discovered by the client.
+In addition, you can export any other configuration value that normally would be in the `$HOME/.kaggle/kaggle.json` in the format ‘KAGGLE_<VARIABLE>’ (note uppercase). For example, if the file had the variable “proxy” you would export `KAGGLE_PROXY` and it would be discovered by the client.
 
 # F.A.Q.
 
@@ -486,6 +477,7 @@ Sure, you can find some [here on github](https://github.com/otosense/haggle/tree
 
 ## A little snippet of code to test?
 
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 ```python
 from haggle import KaggleDatasets
 
@@ -518,18 +510,18 @@ assert "France" in df["Country"].values
 
 # About this build
 
-This documentation was built on **2026-11-23 01:53 UTC** from commit <a href="https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482"><code>7aea187</code></a> on branch <code>master</code>, for **haggle 0.1.20** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 06:54 UTC** from commit <a href="https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2"><code>5b35b1b</code></a> on branch <code>master</code>, for **haggle 0.1.21** (from <code>pyproject.toml</code>).
 
 #### WARNING
 The documentation and the package may be misaligned:
 
-- The documented version (0.1.20) is behind the latest release on PyPI (0.1.21): `pip install haggle` gives newer code than these docs describe.
+- The documented version (0.1.21) is behind the latest release on PyPI (0.1.22): `pip install haggle` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                          |
 |---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482"><code>7aea187f043d977b33c25483d3afbd1c7f1c4482</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2"><code>5b35b1b1533e93247d06689a91cedd22f0d8ebb2</code></a> |
 | Branch              | <code>master</code>                                                                                                                                      |
 | Tags at this commit | none                                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                    |
@@ -540,9 +532,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/haggle</code>                                                             |
-| Run          | <a href="https://github.com/thorwhalen/haggle/actions/runs/45096939044">45096939044</a>    |
+| Run          | <a href="https://github.com/thorwhalen/haggle/actions/runs/45127135586">45127135586</a>    |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>7aea187f043d977b33c25483d3afbd1c7f1c4482</code> (in the history of the built commit) |
+| Event commit | <code>5b35b1b1533e93247d06689a91cedd22f0d8ebb2</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -567,13 +559,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/haggle/0.1.21/">0.1.21</a>, newer than the documented version (0.1.20).
+Latest release: <a href="https://pypi.org/project/haggle/0.1.22/">0.1.22</a>, newer than the documented version (0.1.21).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/haggle && cd haggle
-git checkout 7aea187f043d977b33c25483d3afbd1c7f1c4482
+git checkout 5b35b1b1533e93247d06689a91cedd22f0d8ebb2
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

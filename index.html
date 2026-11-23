@@ -85,7 +85,10 @@ data-aria-dark="Switch to auto color mode">
       <i class="i-lucide close"></i>
     </button>
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
-<li><a class="reference internal" href="#">Haggle</a></li>
+<li><a class="reference internal" href="#">Haggle</a><ul>
+<li><a class="reference internal" href="#install">Install</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#simple-example">Simple example</a><ul>
 <li><a class="reference internal" href="#by-the-way">By the way…</a></li>
 </ul>
@@ -96,7 +99,6 @@ data-aria-dark="Switch to auto color mode">
 </ul>
 </li>
 <li><a class="reference internal" href="#the-boring-stuff">The boring stuff</a><ul>
-<li><a class="reference internal" href="#install">Install</a></li>
 <li><a class="reference internal" href="#api-credentials">API credentials</a></li>
 </ul>
 </li>
@@ -168,15 +170,20 @@ data-aria-dark="Switch to auto color mode">
 <section id="haggle">
 <h1>Haggle<a class="headerlink" href="#haggle" title="Link to this heading">#</a></h1>
 <p>A simple facade to <a class="reference external" href="https://www.kaggle.com/">Kaggle</a> data.</p>
-<p>Essentially, instantiate a <code class="docutils literal notranslate"><span class="pre">KaggleDatasets</span></code> object, and from it search datasets, see their metadata, download the data
-(automatically caching it in well organized folders), and all from an interface that looks like
-a humble dict with <code class="docutils literal notranslate"><span class="pre">owner/dataset</span></code> keys, and that’s the coolest bit.</p>
+<p>Essentially, instantiate a <code class="docutils literal notranslate"><span class="pre">KaggleDatasets</span></code> object, and from it search datasets, see their metadata, download the data (automatically caching it in well organized folders), and all from an interface that looks like a humble dict with <code class="docutils literal notranslate"><span class="pre">owner/dataset</span></code> keys, and that’s the coolest bit.</p>
 <p><strong>Haggle:</strong> /ˈhaɡəl/</p>
 <ul class="simple">
 <li><p>an instance of intense argument (as in bargaining)</p></li>
 <li><p>wrangle (over a price, terms of an agreement, etc.)</p></li>
 <li><p>rhymes with Kaggle and is not taken on pypi (well, now it is)</p></li>
 </ul>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span>haggle
+</span></pre></div>
+</div>
+<p>You need a Kaggle API token to use it; see <a class="reference internal" href="#api-credentials">API credentials</a> below.</p>
+</section>
 </section>
 <section id="simple-example">
 <h1>Simple example<a class="headerlink" href="#simple-example" title="Link to this heading">#</a></h1>
@@ -376,6 +383,7 @@ a humble dict with <code class="docutils literal notranslate"><span class="pre">
 </div>
 <p>You get description, size, tags, download count… Useful stuff to make your choice.</p>
 <p>Personally, I like transform those results in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> that I can subsequently interrogate:</p>
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 </span><span data-line="2">
 </span><span data-line="3"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span>
@@ -553,12 +561,14 @@ a humble dict with <code class="docutils literal notranslate"><span class="pre">
 </span></pre></div>
 </div>
 <p>So if you want to search locally for information (again, information about your searches, not your data zips!), you can get them in a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> like so:</p>
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 </span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
 </span><span data-line="3"><span class="go">(358, 36)</span>
 </span></pre></div>
 </div>
 <p>Markdown for the 10 first rows…</p>
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">t</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </span><span data-line="2"><span class="k">del</span> <span class="n">t</span><span class="p">[</span><span class="s2">"tags"</span><span class="p">]</span>
 </span><span data-line="3"><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">to_markdown</span><span class="p">())</span>
@@ -866,20 +876,9 @@ a humble dict with <code class="docutils literal notranslate"><span class="pre">
 </section>
 <section id="the-boring-stuff">
 <h1>The boring stuff<a class="headerlink" href="#the-boring-stuff" title="Link to this heading">#</a></h1>
-<section id="install">
-<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
-<p>pip install haggle</p>
-<p><strong>You’ll need a kaggle api token to use this</strong></p>
-<p>If you do, you probably can just start using.</p>
-<p>If you don’t got get one! Go see <a class="reference external" href="https://github.com/Kaggle/kaggle-api">this</a> for detailed instructions, it essentially says:</p>
-</section>
 <section id="api-credentials">
 <h2>API credentials<a class="headerlink" href="#api-credentials" title="Link to this heading">#</a></h2>
-<p>To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com.
-Then go to the ‘Account’ tab of your user profile (<code class="docutils literal notranslate"><span class="pre">https://www.kaggle.com/&lt;username&gt;/account</span></code>) and select ‘Create API Token’.
-This will trigger the download of <code class="docutils literal notranslate"><span class="pre">kaggle.json</span></code>, a file containing your API credentials.
-Place this file in the location <code class="docutils literal notranslate"><span class="pre">~/.kaggle/kaggle.json</span></code> (on Windows in the location <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;Windows-username&gt;\.kaggle\kaggle.json</span></code> - you can check the exact location, sans drive, with <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">%HOMEPATH%</span></code>).
-You can define a shell environment variable <code class="docutils literal notranslate"><span class="pre">KAGGLE_CONFIG_DIR</span></code> to change this location to <code class="docutils literal notranslate"><span class="pre">$KAGGLE_CONFIG_DIR/kaggle.json</span></code> (on Windows it will be <code class="docutils literal notranslate"><span class="pre">%KAGGLE_CONFIG_DIR%\kaggle.json</span></code>).</p>
+<p>To use the Kaggle API, sign up for a Kaggle account at https://www.kaggle.com. Then go to the ‘Account’ tab of your user profile (<code class="docutils literal notranslate"><span class="pre">https://www.kaggle.com/&lt;username&gt;/account</span></code>) and select ‘Create API Token’. This will trigger the download of <code class="docutils literal notranslate"><span class="pre">kaggle.json</span></code>, a file containing your API credentials. Place this file in the location <code class="docutils literal notranslate"><span class="pre">~/.kaggle/kaggle.json</span></code> (on Windows in the location <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;Windows-username&gt;\.kaggle\kaggle.json</span></code> - you can check the exact location, sans drive, with <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">%HOMEPATH%</span></code>). You can define a shell environment variable <code class="docutils literal notranslate"><span class="pre">KAGGLE_CONFIG_DIR</span></code> to change this location to <code class="docutils literal notranslate"><span class="pre">$KAGGLE_CONFIG_DIR/kaggle.json</span></code> (on Windows it will be <code class="docutils literal notranslate"><span class="pre">%KAGGLE_CONFIG_DIR%\kaggle.json</span></code>).</p>
 <p>For your security, ensure that other users of your computer do not have read access to your credentials. On Unix-based systems you can do this with the following command:</p>
 <p><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">600</span> <span class="pre">~/.kaggle/kaggle.json</span></code></p>
 <p>You can also choose to export your Kaggle username and token to the environment:</p>
@@ -887,10 +886,7 @@ You can define a shell environment variable <code class="docutils literal notran
 </span><span data-line="2"><span class="nb">export</span><span class="w"> </span><span class="nv">KAGGLE_KEY</span><span class="o">=</span>xxxxxxxxxxxxxx
 </span></pre></div>
 </div>
-<p>In addition, you can export any other configuration value that normally would be in
-the <code class="docutils literal notranslate"><span class="pre">$HOME/.kaggle/kaggle.json</span></code> in the format ‘KAGGLE_<VARIABLE>’ (note uppercase).<br />
-For example, if the file had the variable “proxy” you would export <code class="docutils literal notranslate"><span class="pre">KAGGLE_PROXY</span></code>
-and it would be discovered by the client.</p>
+<p>In addition, you can export any other configuration value that normally would be in the <code class="docutils literal notranslate"><span class="pre">$HOME/.kaggle/kaggle.json</span></code> in the format ‘KAGGLE_<VARIABLE>’ (note uppercase). For example, if the file had the variable “proxy” you would export <code class="docutils literal notranslate"><span class="pre">KAGGLE_PROXY</span></code> and it would be discovered by the client.</p>
 </section>
 </section>
 <section id="f-a-q">
@@ -906,6 +902,7 @@ and it would be discovered by the client.</p>
 </section>
 <section id="a-little-snippet-of-code-to-test">
 <h2>A little snippet of code to test?<a class="headerlink" href="#a-little-snippet-of-code-to-test" title="Link to this heading">#</a></h2>
+<!-- wads-docs: skip needs Kaggle credentials, network or reader state -->
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">haggle</span><span class="w"> </span><span class="kn">import</span> <span class="n">KaggleDatasets</span>
 </span><span data-line="2">
 </span><span data-line="3"><span class="n">s</span> <span class="o">=</span> <span class="n">KaggleDatasets</span><span class="p">()</span>  <span class="c1"># make an instance</span>
@@ -934,7 +931,7 @@ and it would be discovered by the client.</p>
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-23 01:53 UTC from <a href="https://github.com/thorwhalen/haggle/commit/7aea187f043d977b33c25483d3afbd1c7f1c4482">7aea187</a> (master) · haggle 0.1.20 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-23 06:54 UTC from <a href="https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2">5b35b1b</a> (master) · haggle 0.1.21 · <a href="about-this-build.html">about this build</a></p>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
@@ -969,7 +966,7 @@ and it would be discovered by the client.</p>
     </div>
   </div>
 </footer>
-      <script src="_static/documentation_options.js?v=17aaaefc"></script>
+      <script src="_static/documentation_options.js?v=b3d22ae5"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
