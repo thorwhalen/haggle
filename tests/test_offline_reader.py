@@ -105,6 +105,7 @@ def test_clog_and_handle_missing_dir(tmp_path, capsys, monkeypatch):
     dacc.handle_missing_dir(target, ask_first=False, verbose=False)
     assert os.path.isdir(target)
     other = str(tmp_path / "declined")
+    monkeypatch.setattr(dacc, "_stdin_is_interactive", lambda: True)
     monkeypatch.setattr("builtins.input", lambda _="": "n")
     dacc.handle_missing_dir(other, verbose=False)
     assert not os.path.exists(other)

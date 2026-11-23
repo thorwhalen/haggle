@@ -3,6 +3,7 @@ Data access
 """
 
 import os
+import sys
 import zipfile
 import io
 import shutil
@@ -56,9 +57,21 @@ def clog(condition, *args):
         print(*args)
 
 
+def _stdin_is_interactive():
+    """True only when stdin is a tty, i.e. a human can answer a prompt.
+
+    Non-interactive processes (CI, containers, services, ``</dev/null``) never
+    get prompted: the directory is created without asking.
+    """
+    try:
+        return sys.stdin is not None and sys.stdin.isatty()
+    except (ValueError, AttributeError):
+        return False
+
+
 def handle_missing_dir(dirpath, prefix_msg="", ask_first=True, verbose=True):
     if not os.path.isdir(dirpath):
-        if ask_first:
+        if ask_first and _stdin_is_interactive():
             clog(verbose, prefix_msg)
             clog(verbose, f"This directory doesn't exist: {dirpath}")
             answer = input("Should I make that directory for you? ([Y]/n)?") or "Y"
