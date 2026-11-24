@@ -34,7 +34,7 @@ def test_missing_credentials_surface_on_first_use_not_at_import(tmp_path):
         "import haggle.dacc as d\n"
         "try:\n"
         "    d.KaggleDatasetInfoReader()._source\n"
-        "except Exception as e:  # kaggle's exception type varies by version\n"
+        "except BaseException:  # newer kaggle exits instead of raising\n"
         "    print('RAISED-ON-USE')\n"
     )
     done = subprocess.run(
