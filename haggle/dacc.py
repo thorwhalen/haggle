@@ -8,22 +8,32 @@ import zipfile
 import io
 import shutil
 
-try:
-    from kaggle import KaggleApi
-except OSError as err:
-    raise OSError(
-        f"""{err}
+#: The ``kaggle`` package authenticates *when it is imported*, so it is imported (and the
+#: API authenticated) on first use, never at ``import haggle``. Assign a class here to
+#: inject another implementation (tests do).
+KaggleApi = None
+
+
+def _import_kaggle_api():
+    """Import ``kaggle.KaggleApi``, turning the usual failures into helpful errors."""
+    try:
+        from kaggle import KaggleApi as api_cls
+    except OSError as err:
+        raise OSError(
+            f"""{err}
 Do you have a kaggle API token? Did you put it in the right place? 
 See https://github.com/Kaggle/kaggle-api#api-credentials for more information.
 It's quick and easy (oh, and free!)!!
 """
-    )
-except ModuleNotFoundError as err:
-    raise ModuleNotFoundError(
-        f"""{err}
+        ) from err
+    except ModuleNotFoundError as err:
+        raise ModuleNotFoundError(
+            f"""{err}
 You might try to do a `pip install kaggle` in the terminal?
 """
-    )
+        ) from err
+    return api_cls
+
 
 from dol import KvReader, FilesOfZip
 from dol.util import lazyprop
@@ -178,13 +188,18 @@ class KaggleDatasetInfoReader(KvReader):
         locs = locals()
         kwargs.update(**{k: locs[k] for k in explicit_fields if locs[k] is not None})
         self.dataset_filt = kwargs
-        self._source = KaggleApi()
-        self._source.authenticate()
         self.start_page = start_page
         self.max_n_pages = max_n_pages
         self.warn_if_there_are_more_items = warn_if_there_are_more_items
         self.last_page = None
         self.max_pages_reached = None
+
+    @lazyprop
+    def _source(self):
+        """The authenticated Kaggle API, created on first use (not at construction)."""
+        api = (KaggleApi or _import_kaggle_api())()
+        api.authenticate()
+        return api
 
     def _info_items_gen(self):
         page_num = self.start_page
