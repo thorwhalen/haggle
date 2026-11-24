@@ -1,0 +1,36 @@
+haggle.dacc
+===========
+
+.. automodule:: haggle.dacc
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      KaggleApi
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      clog
+      get_kaggle_dataset
+      handle_missing_dir
+      owner_and_dataset_slugs
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DataInfoPaggedItems
+      KaggleBytesDatasetReader
+      KaggleDatasetInfoReader
+      KaggleDatasetReader
+      KaggleDatasets
+      KaggleMeta
+      KaggleMetadataReader
+      LocalKaggleMeta
+      LocalKaggleZips
+      RelZipFiles
+   

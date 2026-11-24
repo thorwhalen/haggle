@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "built_at": "2026-11-23T06:54:31Z",
+  "built_at": "2026-11-24T01:16:10Z",
   "package": {
     "name": "haggle",
-    "version": "0.1.21",
+    "version": "0.1.22",
     "display_name": "haggle",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "5b35b1b1533e93247d06689a91cedd22f0d8ebb2",
-    "short_commit": "5b35b1b",
+    "commit": "d51e89e07356515c4e36e8c537fe22d2c74b3520",
+    "short_commit": "d51e89e",
     "branch": "master",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/haggle",
-    "commit_url": "https://github.com/thorwhalen/haggle/commit/5b35b1b1533e93247d06689a91cedd22f0d8ebb2",
+    "commit_url": "https://github.com/thorwhalen/haggle/commit/d51e89e07356515c4e36e8c537fe22d2c74b3520",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/haggle",
-    "sha": "5b35b1b1533e93247d06689a91cedd22f0d8ebb2",
+    "sha": "d51e89e07356515c4e36e8c537fe22d2c74b3520",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "45127135586",
-    "run_url": "https://github.com/thorwhalen/haggle/actions/runs/45127135586",
+    "run_id": "45303564454",
+    "run_url": "https://github.com/thorwhalen/haggle/actions/runs/45303564454",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.23",
+    "epythet": "0.2.25",
     "sphinx": "9.1.1",
     "docutils": "0.22.4",
     "python": "3.12.16"
@@ -40,7 +40,7 @@
     "html_theme": "shibuya",
     "accent": "#7c397e",
     "mode": "auto",
-    "api_generator": "autoapi",
+    "api_generator": "autosummary",
     "ignore": [
       "tests/",
       "scrap/",
@@ -56,20 +56,20 @@
   },
   "site": {
     "modules_documented": 3,
-    "objects_documented": 9
+    "objects_documented": 16
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.22",
+    "latest": "0.1.23",
     "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/haggle && cd haggle\ngit checkout 5b35b1b1533e93247d06689a91cedd22f0d8ebb2\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/haggle && cd haggle\ngit checkout d51e89e07356515c4e36e8c537fe22d2c74b3520\npip install \"epythet==0.2.25\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": false,
     "notes": [
-      "The documented version (0.1.21) is behind the latest release on PyPI (0.1.22): `pip install haggle` gives newer code than these docs describe."
+      "The documented version (0.1.22) is behind the latest release on PyPI (0.1.23): `pip install haggle` gives newer code than these docs describe."
     ]
   }
 }

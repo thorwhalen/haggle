@@ -1,0 +1,14 @@
+﻿haggle
+======
+
+.. automodule:: haggle
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   dacc
+   small_test

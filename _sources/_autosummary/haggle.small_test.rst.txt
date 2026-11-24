@@ -1,0 +1,12 @@
+haggle.small\_test
+==================
+
+.. automodule:: haggle.small_test
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      simple_smoke_test
+   

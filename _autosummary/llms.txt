@@ -1,0 +1,14 @@
+# haggle
+
+> A facade to Kaggle data
+
+
+## Pages in this subsection
+
+- [haggle](haggle.html.md): Access to kaggle datasets the simplest way possible.
+- [haggle.dacc](haggle.dacc.html.md): Data access
+- [haggle.small_test](haggle.small_test.html.md): | &#96;simple_smoke_test&#96;()   |    |
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.
